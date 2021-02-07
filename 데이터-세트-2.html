@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>4.2 데이터 세트 2 | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="4.2 데이터 세트 2 | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="4.2 데이터 세트 2 | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="데이터-세트-1.html"/>
+<link rel="next" href="Plotting-Networks-with-Igraph.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,118 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+<div id="데이터-세트-2" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> <em>데이터 세트 2</em></h2>
+<p>앞에서 살펴본 바와 같이, 이번에는 네트워크의 에지들이 행렬 형태로 되어 있다. 이러한 데이터를 <code>graph_from_incidence_matrix()</code> 함수를 이용하여, 그래프 개체로 읽어 들일 수 있다. <code>igraph</code>에서 이분할 네트워크는 정점들에 대해 한 모드에서는 <code>FALSE</code>(또는 <code>0</code>) 값을 갖고 또 다른 모드에서는 <code>TRUE</code>(또는 <code>1</code>)값을 갖는 <code>type</code>이라 불리는 속성을 갖는다.</p>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="데이터-세트-2.html#cb305-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nodes2)</span></code></pre></div>
+<pre><code>##    id   media media.type media.name audience.size
+## 1 s01     NYT          1  Newspaper            20
+## 2 s02    WaPo          1  Newspaper            25
+## 3 s03     WSJ          1  Newspaper            30
+## 4 s04    USAT          1  Newspaper            32
+## 5 s05 LATimes          1  Newspaper            20
+## 6 s06     CNN          2         TV            56</code></pre>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="데이터-세트-2.html#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(links2)</span></code></pre></div>
+<pre><code>##     U01 U02 U03 U04 U05 U06 U07 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19
+## s01   1   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+## s02   0   0   0   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+## s03   0   0   0   0   0   1   1   1   1   0   0   0   0   0   0   0   0   0   0
+## s04   0   0   0   0   0   0   0   0   1   1   1   0   0   0   0   0   0   0   0
+## s05   0   0   0   0   0   0   0   0   0   0   1   1   1   0   0   0   0   0   0
+## s06   0   0   0   0   0   0   0   0   0   0   0   0   1   1   0   0   1   0   0
+##     U20
+## s01   0
+## s02   1
+## s03   0
+## s04   0
+## s05   0
+## s06   0</code></pre>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="데이터-세트-2.html#cb309-1" aria-hidden="true" tabindex="-1"></a>net2 <span class="ot">&lt;-</span> <span class="fu">graph_from_incidence_matrix</span>(links2)</span>
+<span id="cb309-2"><a href="데이터-세트-2.html#cb309-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">V</span>(net2)<span class="sc">$</span>type)</span></code></pre></div>
+<pre><code>## 
+## FALSE  TRUE 
+##    10    20</code></pre>
+<p><strong>1 모드 네트워크</strong>를 <code>igraph</code> 개체로 변환하기 위해서는 대신에 <code>graph_from_adjacency_matrix()</code> 함수를 사용한다.</p>
+<ul>
+<li>[참고자료 : 1-mode 네트워크 : <a href="https://yjkim81.wordpress.com/network-data_1mode/" class="uri">https://yjkim81.wordpress.com/network-data_1mode/</a>]</li>
+</ul>
+<p>또한 <strong>2 모드 네트워크</strong>에 대한 이분할 프로젝션을 쉽게 생성할 수 있다. (<em>공동 멤버십</em>은 네트워크 행렬과 그 전치 행렬을 곱함으로써 또는 <code>igraph</code>의 <code>bipartite.projection()</code> 함수를 사용함으로써 쉽게 계산할 수 있다.)</p>
+<ul>
+<li>[참고자료 : 2-mode 네트워크 : <a href="https://yjkim81.wordpress.com/network-data-2-mode/" class="uri">https://yjkim81.wordpress.com/network-data-2-mode/</a>]</li>
+</ul>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="데이터-세트-2.html#cb311-1" aria-hidden="true" tabindex="-1"></a>net2.bp <span class="ot">&lt;-</span> <span class="fu">bipartite.projection</span>(net2)</span></code></pre></div>
+<p>또한 손으로도 프로젝션을 계산할 수 있다.</p>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="데이터-세트-2.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_incidence_matrix</span>(net2) <span class="sc">%*%</span> <span class="fu">t</span>(<span class="fu">as_incidence_matrix</span>(net2)) </span></code></pre></div>
+<pre><code>##     s01 s02 s03 s04 s05 s06 s07 s08 s09 s10
+## s01   3   0   0   0   0   0   0   0   0   1
+## s02   0   3   0   0   0   0   0   0   1   0
+## s03   0   0   4   1   0   0   0   0   1   0
+## s04   0   0   1   3   1   0   0   0   0   1
+## s05   0   0   0   1   3   1   0   0   0   1
+## s06   0   0   0   0   1   3   1   1   0   0
+## s07   0   0   0   0   0   1   3   1   0   0
+## s08   0   0   0   0   0   1   1   4   1   0
+## s09   0   1   1   0   0   0   0   1   3   0
+## s10   1   0   0   1   1   0   0   0   0   2</code></pre>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="데이터-세트-2.html#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">as_incidence_matrix</span>(net2)) <span class="sc">%*%</span> <span class="fu">as_incidence_matrix</span>(net2)</span></code></pre></div>
+<pre><code>##     U01 U02 U03 U04 U05 U06 U07 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19
+## U01   2   1   1   0   0   0   0   0   0   0   1   0   0   0   0   0   0   0   0
+## U02   1   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+## U03   1   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+## U04   0   0   0   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+## U05   0   0   0   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+## U06   0   0   0   0   0   2   1   1   1   0   0   0   0   0   0   0   0   0   1
+## U07   0   0   0   0   0   1   1   1   1   0   0   0   0   0   0   0   0   0   0
+## U08   0   0   0   0   0   1   1   1   1   0   0   0   0   0   0   0   0   0   0
+## U09   0   0   0   0   0   1   1   1   2   1   1   0   0   0   0   0   0   0   0
+## U10   0   0   0   0   0   0   0   0   1   1   1   0   0   0   0   0   0   0   0
+## U11   1   0   0   0   0   0   0   0   1   1   3   1   1   0   0   0   0   0   0
+## U12   0   0   0   0   0   0   0   0   0   0   1   1   1   0   0   0   0   0   0
+## U13   0   0   0   0   0   0   0   0   0   0   1   1   2   1   0   0   1   0   0
+## U14   0   0   0   0   0   0   0   0   0   0   0   0   1   2   1   1   1   0   0
+## U15   0   0   0   0   0   0   0   0   0   0   0   0   0   1   1   1   0   0   0
+## U16   0   0   0   0   0   0   0   0   0   0   0   0   0   1   1   2   1   1   1
+## U17   0   0   0   0   0   0   0   0   0   0   0   0   1   1   0   1   2   1   1
+## U18   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   1   1   1
+## U19   0   0   0   0   0   1   0   0   0   0   0   0   0   0   0   1   1   1   2
+## U20   0   0   0   1   1   1   0   0   0   0   0   0   0   0   0   0   0   0   1
+##     U20
+## U01   0
+## U02   0
+## U03   0
+## U04   1
+## U05   1
+## U06   1
+## U07   0
+## U08   0
+## U09   0
+## U10   0
+## U11   0
+## U12   0
+## U13   0
+## U14   0
+## U15   0
+## U16   0
+## U17   0
+## U18   0
+## U19   1
+## U20   2</code></pre>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="데이터-세트-2.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net2.bp<span class="sc">$</span>proj1, <span class="at">vertex.label.color=</span><span class="st">&quot;black&quot;</span>, <span class="at">vertex.label.dist=</span><span class="dv">1</span>,</span>
+<span id="cb316-2"><a href="데이터-세트-2.html#cb316-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.size=</span><span class="dv">7</span>, <span class="at">vertex.label=</span>nodes2<span class="sc">$</span>media[<span class="sc">!</span><span class="fu">is.na</span>(nodes2<span class="sc">$</span>media.type)])</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-81-1.png" width="672" /></p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="데이터-세트-2.html#cb317-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net2.bp<span class="sc">$</span>proj2, <span class="at">vertex.label.color=</span><span class="st">&quot;black&quot;</span>, <span class="at">vertex.label.dist=</span><span class="dv">1</span>,</span>
+<span id="cb317-2"><a href="데이터-세트-2.html#cb317-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.size=</span><span class="dv">7</span>, <span class="at">vertex.label=</span>nodes2<span class="sc">$</span>media[ <span class="fu">is.na</span>(nodes2<span class="sc">$</span>media.type)])</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-81-2.png" width="672" /></p>
 
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="데이터-세트-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Plotting-Networks-with-Igraph.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +359,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/4-Turning_Networks_into_igraph_Objects.Rmd",
 "text": "Edit"
 },
 "history": {

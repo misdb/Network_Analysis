@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>3.1 데이터 세트 1: 에지 목록(edgelist) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="3.1 데이터 세트 1: 에지 목록(edgelist) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="3.1 데이터 세트 1: 에지 목록(edgelist) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="Reading-Network-Data-Files.html"/>
+<link rel="next" href="데이터-세트-2-인접-행렬adjacent-matrix.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="데이터-세트-1-에지-목록edgelist" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> <em>데이터 세트 1: 에지 목록(edgelist)</em></h2>
+<p>우리가 사용할 첫 번째 데이터 세트는 “<code>Media-Example-NODES.csv</code>”와 “<code>Media-Example-EDGES.csv</code>”두 개의 파일로 구성된다 (<a href="http://www.kateto.net/wordpress/wp-content/uploads/2016/01/netscix2016.zip">download here</a>).</p>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="데이터-세트-1-에지-목록edgelist.html#cb260-1" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Dataset1-Media-Example-NODES.csv&quot;</span>, <span class="at">header=</span>T, <span class="at">as.is=</span>T)</span>
+<span id="cb260-2"><a href="데이터-세트-1-에지-목록edgelist.html#cb260-2" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Dataset1-Media-Example-EDGES.csv&quot;</span>, <span class="at">header=</span>T, <span class="at">as.is=</span>T)</span></code></pre></div>
+<p>데이터 내용을 살펴보자 :</p>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="데이터-세트-1-에지-목록edgelist.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nodes)</span></code></pre></div>
+<pre><code>##    id               media media.type type.label audience.size
+## 1 s01            NY Times          1  Newspaper            20
+## 2 s02     Washington Post          1  Newspaper            25
+## 3 s03 Wall Street Journal          1  Newspaper            30
+## 4 s04           USA Today          1  Newspaper            32
+## 5 s05            LA Times          1  Newspaper            20
+## 6 s06       New York Post          1  Newspaper            50</code></pre>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="데이터-세트-1-에지-목록edgelist.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(links)</span></code></pre></div>
+<pre><code>##   from  to weight      type
+## 1  s01 s02     10 hyperlink
+## 2  s01 s02     12 hyperlink
+## 3  s01 s03     22 hyperlink
+## 4  s01 s04     21 hyperlink
+## 5  s04 s11     22   mention
+## 6  s05 s15     21   mention</code></pre>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="데이터-세트-1-에지-목록edgelist.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(nodes); <span class="fu">length</span>(<span class="fu">unique</span>(nodes<span class="sc">$</span>id))</span></code></pre></div>
+<pre><code>## [1] 17</code></pre>
+<pre><code>## [1] 17</code></pre>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="데이터-세트-1-에지-목록edgelist.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(links); <span class="fu">nrow</span>(<span class="fu">unique</span>(links[,<span class="fu">c</span>(<span class="st">&quot;from&quot;</span>, <span class="st">&quot;to&quot;</span>)]))</span></code></pre></div>
+<pre><code>## [1] 52</code></pre>
+<pre><code>## [1] 49</code></pre>
+<p>from-to 조합의 단일값 보다 더 많은 링크가 있음에 주목하라. 동일한 두 개의 노드 사이에 복수개의 링크가 있는 예가 있음을 의미한다. 동일한 노드 사이의 동일 유형의 모든 링크는 <code>from</code>, <code>to</code>, 그리고 <code>type</code> 별로 <code>aggregate()</code> 함수를 사용하여 그들의 가중치를 합해 줌으로써 없애 줄 것이다. 여기서 우리는 서로 다른 링크 유형을 없애지 않기 위해 <code>simplify()</code> 함수를 사용하지 않는다.</p>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="데이터-세트-1-에지-목록edgelist.html#cb271-1" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(links[,<span class="dv">3</span>], links[,<span class="sc">-</span><span class="dv">3</span>], sum)</span>
+<span id="cb271-2"><a href="데이터-세트-1-에지-목록edgelist.html#cb271-2" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> links[<span class="fu">order</span>(links<span class="sc">$</span>from, links<span class="sc">$</span>to),]</span>
+<span id="cb271-3"><a href="데이터-세트-1-에지-목록edgelist.html#cb271-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb271-4"><a href="데이터-세트-1-에지-목록edgelist.html#cb271-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(links)[<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="st">&quot;weight&quot;</span></span>
+<span id="cb271-5"><a href="데이터-세트-1-에지-목록edgelist.html#cb271-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(links) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="Reading-Network-Data-Files.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="데이터-세트-2-인접-행렬adjacent-matrix.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +289,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/3-Reading_network_data_from_files.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>Chapter 8 서브 그룹과 커뮤니티 | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="Chapter 8 서브 그룹과 커뮤니티 | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="Chapter 8 서브 그룹과 커뮤니티 | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="Distances-and-Paths.html"/>
+<link rel="next" href="클릭cliques.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="Subgroups_and_Communities" class="section level1" number="8">
+<h1><span class="header-section-number">Chapter 8</span> 서브 그룹과 커뮤니티</h1>
+<p>네트워크 분석에서 하위집단, 커뮤니티 식별은 관심이 가는 흥미로운 주제중 하나다. 하위집단, 커뮤니티 탐지 분석작업을 위해서 먼저 방향성 없는 그래프로 변환해야 하는데 다음과 같은 3가지 방법을 사용할 수 있다.</p>
+<ul>
+<li>연결된 노드들의 모든 쌍 사이의 무방향 링크를 생성할 수 있다 (<code>mode = "collapse"</code>)</li>
+<li>잠재적으로 멀티플렉스 그래프가 되는 네트워크에서 각각의 방향성있는 링크에 대해 무방향 링크를 생성한다(<code>mode="each"</code>)</li>
+<li>그래프에서 각각의 대칭 링크에 대해 무방향 링크를 생성한다(<code>mode="mutual"</code>).</li>
+</ul>
+<p><em>A -&gt; B</em> 와<em>B -&gt; A</em> 의 연결이 있는 경우에는 각 에지의 속성들에 대해 앞에서 <code>simplify()</code> 함수에서 다룬것 처럼 <code>edge.attr.comb</code> 파라미터를 사용하여 어떻게 처리할 것인지를 설정하면 된다. 여기서는 링크들의 weight를 합하면 되고, 다른 모든 에지들의 속성은 무시하고 제거한다.</p>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="Subgroups-and-Communities.html#cb451-1" aria-hidden="true" tabindex="-1"></a>net.sym <span class="ot">&lt;-</span> <span class="fu">as.undirected</span>(net, <span class="at">mode=</span> <span class="st">&quot;collapse&quot;</span>,</span>
+<span id="cb451-2"><a href="Subgroups-and-Communities.html#cb451-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb451-3"><a href="Subgroups-and-Communities.html#cb451-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">edge.attr.comb=</span><span class="fu">list</span>(<span class="at">weight=</span><span class="st">&quot;sum&quot;</span>, <span class="st">&quot;ignore&quot;</span>))</span></code></pre></div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="Distances-and-Paths.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="클릭cliques.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +267,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/8-Subgroups_and_Communities.Rmd",
 "text": "Edit"
 },
 "history": {

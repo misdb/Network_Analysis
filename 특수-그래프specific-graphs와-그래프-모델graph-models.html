@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>2.3 특수 그래프(Specific graphs)와 그래프 모델(graph models) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="2.3 특수 그래프(Specific graphs)와 그래프 모델(graph models) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="2.3 특수 그래프(Specific graphs)와 그래프 모델(graph models) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="에지edge-정점vertex-그리고-네트워크-속성network-attributes.html"/>
+<link rel="next" href="Reading-Network-Data-Files.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,77 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+<div id="특수-그래프specific-graphs와-그래프-모델graph-models" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> <em>특수 그래프(Specific graphs)와 그래프 모델(graph models)</em></h2>
+<p><strong>빈 그래프(Empty graph)</strong></p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb246-1" aria-hidden="true" tabindex="-1"></a>eg <span class="ot">&lt;-</span> <span class="fu">make_empty_graph</span>(<span class="dv">40</span>)</span>
+<span id="cb246-2"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb246-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(eg, <span class="at">vertex.size=</span><span class="dv">10</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
+<p><strong>완전 그래프(Full graph)</strong></p>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb247-1" aria-hidden="true" tabindex="-1"></a>fg <span class="ot">&lt;-</span> <span class="fu">make_full_graph</span>(<span class="dv">40</span>)</span>
+<span id="cb247-2"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb247-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fg, <span class="at">vertex.size=</span><span class="dv">10</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
+<p><strong>단순 성형 그래프(Simple star graph)</strong></p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb248-1" aria-hidden="true" tabindex="-1"></a>st <span class="ot">&lt;-</span> <span class="fu">make_star</span>(<span class="dv">40</span>)</span>
+<span id="cb248-2"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb248-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(st, <span class="at">vertex.size=</span><span class="dv">10</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>) </span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<p><strong>나무형 그래프(Tree graph)</strong></p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb249-1" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">make_tree</span>(<span class="dv">40</span>, <span class="at">children =</span> <span class="dv">3</span>, <span class="at">mode =</span> <span class="st">&quot;undirected&quot;</span>)</span>
+<span id="cb249-2"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb249-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tr, <span class="at">vertex.size=</span><span class="dv">10</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>) </span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<p><strong>환형 그래프(Ring graph)</strong></p>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb250-1" aria-hidden="true" tabindex="-1"></a>rn <span class="ot">&lt;-</span> <span class="fu">make_ring</span>(<span class="dv">40</span>)</span>
+<span id="cb250-2"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb250-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rn, <span class="at">vertex.size=</span><span class="dv">10</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<p><strong>Erdos-Renyi <em>random graph model</em></strong>
+(‘<code>n</code>’ : 노드의 갯수, ‘m’ : 에지의 갯수).</p>
+<p>[참고자료 : <a href="http://sanghyukchun.github.io/50/" class="uri">http://sanghyukchun.github.io/50/</a>]</p>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb251-1" aria-hidden="true" tabindex="-1"></a>er <span class="ot">&lt;-</span> <span class="fu">sample_gnm</span>(<span class="at">n=</span><span class="dv">100</span>, <span class="at">m=</span><span class="dv">40</span>) </span>
+<span id="cb251-2"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb251-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(er, <span class="at">vertex.size=</span><span class="dv">6</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>)  </span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p><strong>Watts-Strogatz <em>small-world model</em></strong>
+(<code>dim</code> 차원과 <code>size</code> 차원의 노드의 수를 갖는) lattice를 생성하고, 확률 <code>p</code>로 무작위로 에지를 연결한다.</p>
+<p>에지가 연결된 이웃들은 <code>nei</code>이다. <code>loops</code> 와 다중(<code>multiple</code>) 에지를 허용할 수 있다.</p>
+<p>[참고자료 : <a href="http://sanghyukchun.github.io/51/" class="uri">http://sanghyukchun.github.io/51/</a>]</p>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb252-1" aria-hidden="true" tabindex="-1"></a>sw <span class="ot">&lt;-</span> <span class="fu">sample_smallworld</span>(<span class="at">dim=</span><span class="dv">2</span>, <span class="at">size=</span><span class="dv">10</span>, <span class="at">nei=</span><span class="dv">1</span>, <span class="at">p=</span><span class="fl">0.1</span>)</span>
+<span id="cb252-2"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb252-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sw, <span class="at">vertex.size=</span><span class="dv">6</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>, <span class="at">layout=</span>layout_in_circle)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
+<p><strong>Barabasi-Albert preferential attachment model for <em>scale-free graphs</em></strong>
+(<code>n</code> : 노드의 갯수, <code>power</code> 제곱승 (<code>1</code>은 선형); <code>m</code> 각 시간 단계에 추가되는 에지의 갯수)</p>
+<p>[참고자료 : <a href="http://sanghyukchun.github.io/52/" class="uri">http://sanghyukchun.github.io/52/</a>]</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb253-1" aria-hidden="true" tabindex="-1"></a>ba <span class="ot">&lt;-</span>  <span class="fu">sample_pa</span>(<span class="at">n=</span><span class="dv">100</span>, <span class="at">power=</span><span class="dv">1</span>, <span class="at">m=</span><span class="dv">1</span>,  <span class="at">directed=</span>F)</span>
+<span id="cb253-2"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb253-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ba, <span class="at">vertex.size=</span><span class="dv">6</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
+<p><code>igraph</code> 는 몇가지 주목할 만한 역사적인 그래프를 제공할 수 있다. 예를 들어,</p>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb254-1" aria-hidden="true" tabindex="-1"></a>zach <span class="ot">&lt;-</span> <span class="fu">graph</span>(<span class="st">&quot;Zachary&quot;</span>)                    <span class="co"># the Zachary carate club</span></span>
+<span id="cb254-2"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb254-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(zach, <span class="at">vertex.size=</span><span class="dv">10</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<p><strong>Rewiring a graph</strong>
+<code>each_edge()</code> 은 확률 <code>prob</code>으로 일양분포하는 에지의 끝단을 변경하는 재연결 방법이다.</p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb255-1" aria-hidden="true" tabindex="-1"></a>rn.rewired <span class="ot">&lt;-</span> <span class="fu">rewire</span>(rn, <span class="fu">each_edge</span>(<span class="at">prob=</span><span class="fl">0.1</span>))</span>
+<span id="cb255-2"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb255-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rn.rewired, <span class="at">vertex.size=</span><span class="dv">10</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
+<p>특정 거리에서 정점들을 다른 정점들과 연결하기 위한 리와이어.</p>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb256-1" aria-hidden="true" tabindex="-1"></a>rn.neigh <span class="ot">=</span> <span class="fu">connect.neighborhood</span>(rn, <span class="dv">5</span>)</span>
+<span id="cb256-2"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb256-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rn.neigh, <span class="at">vertex.size=</span><span class="dv">8</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>) </span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
+<p><strong>그래프의 결합</strong>(분리된 정점 집합을 가정한 <strong>상호배제 합집합(disjoint union)</strong> ) : <code>%du%</code></p>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb257-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(rn, <span class="at">vertex.size=</span><span class="dv">10</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-66-1.png" width="672" /></p>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb258-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(tr, <span class="at">vertex.size=</span><span class="dv">10</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-66-2.png" width="672" /></p>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="특수-그래프specific-graphs와-그래프-모델graph-models.html#cb259-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(rn <span class="sc">%du%</span> tr, <span class="at">vertex.size=</span><span class="dv">10</span>, <span class="at">vertex.label=</span><span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-66-3.png" width="672" /></p>
 
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="에지edge-정점vertex-그리고-네트워크-속성network-attributes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Reading-Network-Data-Files.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +318,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/2-Networks_in_igraph.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>6.8 허브와 오쏘러티(Hubs and authorities) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="6.8 허브와 오쏘러티(Hubs and authorities) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="6.8 허브와 오쏘러티(Hubs and authorities) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="중심성과-중심화centrality-centralization.html"/>
+<link rel="next" href="참고자료-1.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="허브와-오쏘러티hubs-and-authorities" class="section level2" number="6.8">
+<h2><span class="header-section-number">6.8</span> <em>허브와 오쏘러티(Hubs and authorities)</em></h2>
+<p>Jon Kleinberg가 개발한 허브와 오쏘러티 알고리즘은 처음에 웹 페이지를 검토할 때 사용되었다. 허브(Hubs)는 대규모의 외부로 나가는 링크를 가지고 있는 목록들을 포함하고 있는 것으로 예상된다. 반면에 오쏘러티(Authorities)는 짐작하건대 고품질의 관련 정보를 담고있기 때문에 허브로 부터 들어오는 많은 링크를 가지고 있을 것으로 기대된다.</p>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="허브와-오쏘러티hubs-and-authorities.html#cb432-1" aria-hidden="true" tabindex="-1"></a>hs <span class="ot">&lt;-</span> <span class="fu">hub_score</span>(net, <span class="at">weights=</span><span class="cn">NA</span>)<span class="sc">$</span>vector</span>
+<span id="cb432-2"><a href="허브와-오쏘러티hubs-and-authorities.html#cb432-2" aria-hidden="true" tabindex="-1"></a>as <span class="ot">&lt;-</span> <span class="fu">authority_score</span>(net, <span class="at">weights=</span><span class="cn">NA</span>)<span class="sc">$</span>vector</span>
+<span id="cb432-3"><a href="허브와-오쏘러티hubs-and-authorities.html#cb432-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb432-4"><a href="허브와-오쏘러티hubs-and-authorities.html#cb432-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb432-5"><a href="허브와-오쏘러티hubs-and-authorities.html#cb432-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net, <span class="at">vertex.size=</span>hs<span class="sc">*</span><span class="dv">50</span>, <span class="at">main=</span><span class="st">&quot;Hubs&quot;</span>)</span>
+<span id="cb432-6"><a href="허브와-오쏘러티hubs-and-authorities.html#cb432-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net, <span class="at">vertex.size=</span>as<span class="sc">*</span><span class="dv">30</span>, <span class="at">main=</span><span class="st">&quot;Authorities&quot;</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-126-1.png" width="672" /></p>
+<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="허브와-오쏘러티hubs-and-authorities.html#cb433-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<pre><code>## null device 
+##           1</code></pre>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="중심성과-중심화centrality-centralization.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="참고자료-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +268,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/6-Network_and_Node_Descriptives.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>1.5 Factors | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="1.5 Factors | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="1.5 Factors | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="벡터vectors.html"/>
+<link rel="next" href="행렬과-배열matrces-arrays.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="factors" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> <em>Factors</em></h2>
+<p>factor는 범주형 데이터를 저장하기 위해 사용된다. (factor는 기본적으로 문자형 벡터이다.)</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="factors.html#cb84-1" aria-hidden="true" tabindex="-1"></a>eye.col.vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;brown&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;brown&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;blue&quot;</span>)  <span class="co"># 문자 벡터</span></span>
+<span id="cb84-2"><a href="factors.html#cb84-2" aria-hidden="true" tabindex="-1"></a>eye.col.vec</span></code></pre></div>
+<pre><code>## [1] &quot;brown&quot; &quot;green&quot; &quot;brown&quot; &quot;blue&quot;  &quot;blue&quot;  &quot;blue&quot;</code></pre>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="factors.html#cb86-1" aria-hidden="true" tabindex="-1"></a>eye.col.fac <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;brown&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;brown&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;blue&quot;</span>)) <span class="co"># factor</span></span>
+<span id="cb86-2"><a href="factors.html#cb86-2" aria-hidden="true" tabindex="-1"></a>eye.col.fac</span></code></pre></div>
+<pre><code>## [1] brown green brown blue  blue  blue 
+## Levels: blue brown green</code></pre>
+<p>R은 factor의 서로 다른 level들을 식별한다 - 즉, 단일 값들. 데이터는 내부적으로 정수로 저장되며, 각 숫자는 factor의 level에 대응한다. (문자 벡터보다 데이터 저장 공간이 절약되는 효과가 있다.)</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="factors.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># factor의 level 확인 : levels() 함수의 사용</span></span>
+<span id="cb88-2"><a href="factors.html#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(eye.col.fac)      <span class="co"># factor(범주형 변수)의 levels들(단일 값)</span></span></code></pre></div>
+<pre><code>## [1] &quot;blue&quot;  &quot;brown&quot; &quot;green&quot;</code></pre>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="factors.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># factor의 숫자 벡터 변환 : as.numeric() 함수의 사용</span></span>
+<span id="cb90-2"><a href="factors.html#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(eye.col.fac)  <span class="co"># 수치 값 : 1은 &quot;blue&quot;, 2는 &quot;brown&quot;, 3은 &quot;green&quot;</span></span></code></pre></div>
+<pre><code>## [1] 2 3 2 1 1 1</code></pre>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="factors.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 문자 벡터의 숫자 벡터 변환 </span></span>
+<span id="cb92-2"><a href="factors.html#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(eye.col.vec)  <span class="co"># eye.col.vec 벡터는 숫자 벡터로 변환이 안됨.</span></span></code></pre></div>
+<pre><code>## Warning: 강제형변환에 의해 생성된 NA 입니다</code></pre>
+<pre><code>## [1] NA NA NA NA NA NA</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="factors.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># factor의 문자형 변환 : as.character() 함수의 사용</span></span>
+<span id="cb95-2"><a href="factors.html#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.character</span>(eye.col.fac)  </span></code></pre></div>
+<pre><code>## [1] &quot;brown&quot; &quot;green&quot; &quot;brown&quot; &quot;blue&quot;  &quot;blue&quot;  &quot;blue&quot;</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="factors.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 문자 벡터의 문자형 변환</span></span>
+<span id="cb97-2"><a href="factors.html#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.character</span>(eye.col.vec) </span></code></pre></div>
+<pre><code>## [1] &quot;brown&quot; &quot;green&quot; &quot;brown&quot; &quot;blue&quot;  &quot;blue&quot;  &quot;blue&quot;</code></pre>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="벡터vectors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="행렬과-배열matrces-arrays.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +282,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/1-Quick_Reminder_of_R_Basics.Rmd",
 "text": "Edit"
 },
 "history": {

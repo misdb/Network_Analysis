@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>5.2 네트워크 시각화 개선 | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="5.2 네트워크 시각화 개선 | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="5.2 네트워크 시각화 개선 | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="network-layouts.html"/>
+<link rel="next" href="tkplot-패키지를-이용한-상호대화식-시각화.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="네트워크-시각화-개선" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> <em>네트워크 시각화 개선</em></h2>
+<p>아직 네트워크의 시각화가 그렇게 도움이 되지 않음을 알 수 있다. 노드의 형태와 크기를 지정할 수 있지만, 우리가 검토하고 있는 연결들이 너무 조밀해서 그 구조를 그렇게 잘 파악하기가 쉽지 않다. 이를 위한 하나의 접근방법은 가장 중요한 연결에만 집중하고 나머지는 제거함으로써 네트워크를 간소화할 수 있는지를 알아보는 것이다.</p>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="네트워크-시각화-개선.html#cb365-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(links<span class="sc">$</span>weight)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-103-1.png" width="672" /></p>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="네트워크-시각화-개선.html#cb366-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(links<span class="sc">$</span>weight)</span></code></pre></div>
+<pre><code>## [1] 12.40816</code></pre>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="네트워크-시각화-개선.html#cb368-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(links<span class="sc">$</span>weight)</span></code></pre></div>
+<pre><code>## [1] 9.905635</code></pre>
+<p>중요한 에지들을 추출하는 좀 더 복잡한 방법이 있지만 여기서는 네트워크의 평균 가중치 보다 더 큰 가중치를 갖는 노드들만 집중하기로 한다.</p>
+<p><code>igraph</code> 패키지에서는 <code>delete_edges(net, edges)</code> 함수를 이용하여 에지들을 삭제할 수 있다 :</p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="네트워크-시각화-개선.html#cb370-1" aria-hidden="true" tabindex="-1"></a>cut.off <span class="ot">&lt;-</span> <span class="fu">mean</span>(links<span class="sc">$</span>weight) </span>
+<span id="cb370-2"><a href="네트워크-시각화-개선.html#cb370-2" aria-hidden="true" tabindex="-1"></a>net.sp <span class="ot">&lt;-</span> <span class="fu">delete_edges</span>(net, <span class="fu">E</span>(net)[weight <span class="sc">&lt;</span> cut.off])</span>
+<span id="cb370-3"><a href="네트워크-시각화-개선.html#cb370-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net.sp) </span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-104-1.png" width="672" /></p>
+<p>이에 대한 또 다른 고려 방법은 두 개의 연결 유형(<code>hyperlink</code>와 <code>mention</code>)을 따로 시각화하는 것이다.</p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="네트워크-시각화-개선.html#cb371-1" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(net)<span class="sc">$</span>width <span class="ot">&lt;-</span> <span class="fl">1.5</span></span>
+<span id="cb371-2"><a href="네트워크-시각화-개선.html#cb371-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb371-3"><a href="네트워크-시각화-개선.html#cb371-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net, <span class="at">edge.color=</span><span class="fu">c</span>(<span class="st">&quot;dark red&quot;</span>, <span class="st">&quot;slategrey&quot;</span>)[(<span class="fu">E</span>(net)<span class="sc">$</span>type<span class="sc">==</span><span class="st">&quot;hyperlink&quot;</span>)<span class="sc">+</span><span class="dv">1</span>],</span>
+<span id="cb371-4"><a href="네트워크-시각화-개선.html#cb371-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.color=</span><span class="st">&quot;gray40&quot;</span>, <span class="at">layout=</span>layout.circle)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
+<p>두 개의 link들을 따로 플롯하기 :</p>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="네트워크-시각화-개선.html#cb372-1" aria-hidden="true" tabindex="-1"></a>net.m <span class="ot">&lt;-</span> net <span class="sc">-</span> <span class="fu">E</span>(net)[<span class="fu">E</span>(net)<span class="sc">$</span>type<span class="sc">==</span><span class="st">&quot;hyperlink&quot;</span>] <span class="co"># another way to delete edges</span></span>
+<span id="cb372-2"><a href="네트워크-시각화-개선.html#cb372-2" aria-hidden="true" tabindex="-1"></a>net.h <span class="ot">&lt;-</span> net <span class="sc">-</span> <span class="fu">E</span>(net)[<span class="fu">E</span>(net)<span class="sc">$</span>type<span class="sc">==</span><span class="st">&quot;mention&quot;</span>]</span>
+<span id="cb372-3"><a href="네트워크-시각화-개선.html#cb372-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb372-4"><a href="네트워크-시각화-개선.html#cb372-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 두 개의 link를 따로 시각화하기</span></span>
+<span id="cb372-5"><a href="네트워크-시각화-개선.html#cb372-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb372-6"><a href="네트워크-시각화-개선.html#cb372-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net.h, <span class="at">vertex.color=</span><span class="st">&quot;orange&quot;</span>, <span class="at">main=</span><span class="st">&quot;Tie: Hyperlink&quot;</span>)</span>
+<span id="cb372-7"><a href="네트워크-시각화-개선.html#cb372-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net.m, <span class="at">vertex.color=</span><span class="st">&quot;lightsteelblue2&quot;</span>, <span class="at">main=</span><span class="st">&quot;Tie: Mention&quot;</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-106-1.png" width="672" /></p>
+<p>두 개의 플롯에서 존재하는 노드들을 확인하기 :</p>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="네트워크-시각화-개선.html#cb373-1" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">layout_with_fr</span>(net)</span>
+<span id="cb373-2"><a href="네트워크-시각화-개선.html#cb373-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net.h, <span class="at">vertex.color=</span><span class="st">&quot;orange&quot;</span>, <span class="at">layout=</span>l, <span class="at">main=</span><span class="st">&quot;Tie: Hyperlink&quot;</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-107-1.png" width="672" /></p>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="네트워크-시각화-개선.html#cb374-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net.m, <span class="at">vertex.color=</span><span class="st">&quot;lightsteelblue2&quot;</span>, <span class="at">layout=</span>l, <span class="at">main=</span><span class="st">&quot;Tie: Mention&quot;</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-107-2.png" width="672" /></p>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="네트워크-시각화-개선.html#cb375-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<pre><code>## null device 
+##           1</code></pre>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="network-layouts.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tkplot-패키지를-이용한-상호대화식-시각화.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +294,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/5-Plotting_Networks_with_igraph.Rmd",
 "text": "Edit"
 },
 "history": {

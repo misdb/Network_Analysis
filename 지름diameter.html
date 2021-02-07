@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>6.4 지름(Diameter) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="6.4 지름(Diameter) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="6.4 지름(Diameter) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="이행성transitivity.html"/>
+<link rel="next" href="노드-연결-정도node-degrees.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="지름diameter" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> <em>지름(Diameter)</em></h2>
+<p>네트워크 지름은 네트워크에서 (두 노드 사이의 최단 경로의 길이인) 가장 긴 측지선 거리이다. <code>igraph</code>에서, <code>diameter()</code> 함수가 거리를 반환한다. 반면에, <code>get_diameter()</code> 함수는 그 거리의 첫 번째 발견된 경로에 있는 노드들을 반환한다. 만일 <code>NA</code>로 설정되어 있지 않다면, 에지의 가중치가 기본 값으로 사용됨을 주목하기 바란다.</p>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="지름diameter.html#cb400-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diameter</span>(net, <span class="at">directed=</span>F, <span class="at">weights=</span><span class="cn">NA</span>)</span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="지름diameter.html#cb402-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diameter</span>(net, <span class="at">directed=</span>F)</span></code></pre></div>
+<pre><code>## [1] 28</code></pre>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="지름diameter.html#cb404-1" aria-hidden="true" tabindex="-1"></a>diam <span class="ot">&lt;-</span> <span class="fu">get_diameter</span>(net, <span class="at">directed=</span>T)</span>
+<span id="cb404-2"><a href="지름diameter.html#cb404-2" aria-hidden="true" tabindex="-1"></a>diam</span></code></pre></div>
+<pre><code>## + 7/17 vertices, named, from d3766f8:
+## [1] s12 s06 s17 s04 s03 s08 s07</code></pre>
+<p><code>get_diameter()</code> 함수는 정점 시퀀스(vertex sequence)를 반환함을 주목하라.</p>
+<p>그러나 벡터와 같이 작동하도록 요청되었을 때, 정점 시퀀스는 그 안에 있는 노드들의 수치 색인을 생성하게 됨을 주목하라. 에지 시퀀스에도 동일하게 적용된다.</p>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="지름diameter.html#cb406-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(diam)</span></code></pre></div>
+<pre><code>## [1] &quot;igraph.vs&quot;</code></pre>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="지름diameter.html#cb408-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.vector</span>(diam)</span></code></pre></div>
+<pre><code>## [1] 12  6 17  4  3  8  7</code></pre>
+<p>지름 내의 노드들 색 지정하기 :</p>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="지름diameter.html#cb410-1" aria-hidden="true" tabindex="-1"></a>vcol <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;gray40&quot;</span>, <span class="fu">vcount</span>(net))</span>
+<span id="cb410-2"><a href="지름diameter.html#cb410-2" aria-hidden="true" tabindex="-1"></a>vcol[diam] <span class="ot">&lt;-</span> <span class="st">&quot;gold&quot;</span></span>
+<span id="cb410-3"><a href="지름diameter.html#cb410-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb410-4"><a href="지름diameter.html#cb410-4" aria-hidden="true" tabindex="-1"></a>ecol <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;gray80&quot;</span>, <span class="fu">ecount</span>(net))</span>
+<span id="cb410-5"><a href="지름diameter.html#cb410-5" aria-hidden="true" tabindex="-1"></a>ecol[<span class="fu">E</span>(net, <span class="at">path=</span>diam)] <span class="ot">&lt;-</span> <span class="st">&quot;orange&quot;</span> </span>
+<span id="cb410-6"><a href="지름diameter.html#cb410-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb410-7"><a href="지름diameter.html#cb410-7" aria-hidden="true" tabindex="-1"></a><span class="co"># E(net, path=diam) : &#39;diam&#39; 경로에 따른 에지들</span></span>
+<span id="cb410-8"><a href="지름diameter.html#cb410-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net, <span class="at">vertex.color=</span>vcol, <span class="at">edge.color=</span>ecol, <span class="at">edge.arrow.mode=</span><span class="dv">0</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-118-1.png" width="672" /></p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="이행성transitivity.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="노드-연결-정도node-degrees.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +282,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/6-Network_and_Node_Descriptives.Rmd",
 "text": "Edit"
 },
 "history": {

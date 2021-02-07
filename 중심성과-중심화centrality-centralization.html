@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>6.7 중심성과 중심화(Centrality &amp; centralization) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="6.7 중심성과 중심화(Centrality &amp; centralization) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="6.7 중심성과 중심화(Centrality &amp; centralization) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="연결-정도-분포degree-distribution.html"/>
+<link rel="next" href="허브와-오쏘러티hubs-and-authorities.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,229 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="중심성과-중심화centrality-centralization" class="section level2" number="6.7">
+<h2><span class="header-section-number">6.7</span> <em>중심성과 중심화(Centrality &amp; centralization)</em></h2>
+<p>(<em>노드 수준</em>에서의) <strong>중심성 함수(Centrality functions)</strong>들과 (<em>그래프 수준</em>의) <strong>중심화 함수(centralization functions)</strong>.</p>
+<p><em>중심화 함수들은 노드의 연결 중심성 값인 <code>res</code>, 중심화 값인 <code>centralization</code>, 그리고 이 사이즈 그래프에 대한 최대 중심화 점수인 <code>theoretical_max</code> 등을 반환한다.</em> 중심화 함수는 (<code>vids</code> 파리미터로 설정된) 노드의 부분집합에서 실행된다. 이는 모든 중심성을 계산하는데 많은 자원이 요구되고 작업하는데 많은 시간이 걸리는 대규모 그래프에서 유용한다.</p>
+<p><strong><em>연결 정도(Degree)</em></strong> (연결의 수, number of ties) : <code>degree()</code> 함수와 <code>centr_degree()</code>함수</p>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="중심성과-중심화centrality-centralization.html#cb414-1" aria-hidden="true" tabindex="-1"></a><span class="fu">degree</span>(net, <span class="at">mode=</span><span class="st">&quot;in&quot;</span>)</span></code></pre></div>
+<pre><code>## s01 s02 s03 s04 s05 s06 s07 s08 s09 s10 s11 s12 s13 s14 s15 s16 s17 
+##   4   2   6   4   1   4   1   2   3   4   3   3   2   2   2   1   4</code></pre>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="중심성과-중심화centrality-centralization.html#cb416-1" aria-hidden="true" tabindex="-1"></a><span class="fu">centr_degree</span>(net, <span class="at">mode=</span><span class="st">&quot;in&quot;</span>, <span class="at">normalized=</span>T)</span></code></pre></div>
+<pre><code>## $res
+##  [1] 4 2 6 4 1 4 1 2 3 4 3 3 2 2 2 1 4
+## 
+## $centralization
+## [1] 0.1985294
+## 
+## $theoretical_max
+## [1] 272</code></pre>
+<p><strong><em>근접 중심성(Closeness)</em></strong> (그래프에서 다른 노드들과의 거리에 기반한 중심성) : <code>closeness()</code> 함수와 <code>centr_clo()</code> 함수
+노드에 있는 다른 노들들까지의 노드의 평균 측지 거리(average geodesic distance)의 역수.</p>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="중심성과-중심화centrality-centralization.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="fu">closeness</span>(net, <span class="at">mode=</span><span class="st">&quot;all&quot;</span>, <span class="at">weights=</span><span class="cn">NA</span>)</span></code></pre></div>
+<pre><code>##        s01        s02        s03        s04        s05        s06        s07 
+## 0.03333333 0.03030303 0.04166667 0.03846154 0.03225806 0.03125000 0.03030303 
+##        s08        s09        s10        s11        s12        s13        s14 
+## 0.02857143 0.02564103 0.02941176 0.03225806 0.03571429 0.02702703 0.02941176 
+##        s15        s16        s17 
+## 0.03030303 0.02222222 0.02857143</code></pre>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="중심성과-중심화centrality-centralization.html#cb420-1" aria-hidden="true" tabindex="-1"></a><span class="fu">centr_clo</span>(net, <span class="at">mode=</span><span class="st">&quot;all&quot;</span>, <span class="at">normalized=</span>T) </span></code></pre></div>
+<pre><code>## $res
+##  [1] 0.5333333 0.4848485 0.6666667 0.6153846 0.5161290 0.5000000 0.4848485
+##  [8] 0.4571429 0.4102564 0.4705882 0.5161290 0.5714286 0.4324324 0.4705882
+## [15] 0.4848485 0.3555556 0.4571429
+## 
+## $centralization
+## [1] 0.3753596
+## 
+## $theoretical_max
+## [1] 7.741935</code></pre>
+<p><strong><em>아이겐벡터 중심성(고유벡터, Eigenvector)</em></strong> (연결 중심성 합에 비례한 중심성) : <code>eigen_centrality()</code> 함수와 <code>centr_eigen()</code> 함수</p>
+<p>그래프 행렬의 첫 번째 아이겐벡터 값들.</p>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="중심성과-중심화centrality-centralization.html#cb422-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen_centrality</span>(net, <span class="at">directed=</span>T, <span class="at">weights=</span><span class="cn">NA</span>)</span></code></pre></div>
+<pre><code>## $vector
+##       s01       s02       s03       s04       s05       s06       s07       s08 
+## 0.6638179 0.3314674 1.0000000 0.9133129 0.3326443 0.7468249 0.1244195 0.3740317 
+##       s09       s10       s11       s12       s13       s14       s15       s16 
+## 0.3453324 0.5991652 0.7334202 0.7519086 0.3470857 0.2915055 0.3314674 0.2484270 
+##       s17 
+## 0.7503292 
+## 
+## $value
+## [1] 3.006215
+## 
+## $options
+## $options$bmat
+## [1] &quot;I&quot;
+## 
+## $options$n
+## [1] 17
+## 
+## $options$which
+## [1] &quot;LR&quot;
+## 
+## $options$nev
+## [1] 1
+## 
+## $options$tol
+## [1] 0
+## 
+## $options$ncv
+## [1] 0
+## 
+## $options$ldv
+## [1] 0
+## 
+## $options$ishift
+## [1] 1
+## 
+## $options$maxiter
+## [1] 1000
+## 
+## $options$nb
+## [1] 1
+## 
+## $options$mode
+## [1] 1
+## 
+## $options$start
+## [1] 1
+## 
+## $options$sigma
+## [1] 0
+## 
+## $options$sigmai
+## [1] 0
+## 
+## $options$info
+## [1] 0
+## 
+## $options$iter
+## [1] 7
+## 
+## $options$nconv
+## [1] 1
+## 
+## $options$numop
+## [1] 31
+## 
+## $options$numopb
+## [1] 0
+## 
+## $options$numreo
+## [1] 18</code></pre>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="중심성과-중심화centrality-centralization.html#cb424-1" aria-hidden="true" tabindex="-1"></a><span class="fu">centr_eigen</span>(net, <span class="at">directed=</span>T, <span class="at">normalized=</span>T) </span></code></pre></div>
+<pre><code>## $vector
+##  [1] 0.6638179 0.3314674 1.0000000 0.9133129 0.3326443 0.7468249 0.1244195
+##  [8] 0.3740317 0.3453324 0.5991652 0.7334202 0.7519086 0.3470857 0.2915055
+## [15] 0.3314674 0.2484270 0.7503292
+## 
+## $value
+## [1] 3.006215
+## 
+## $options
+## $options$bmat
+## [1] &quot;I&quot;
+## 
+## $options$n
+## [1] 17
+## 
+## $options$which
+## [1] &quot;LR&quot;
+## 
+## $options$nev
+## [1] 1
+## 
+## $options$tol
+## [1] 0
+## 
+## $options$ncv
+## [1] 0
+## 
+## $options$ldv
+## [1] 0
+## 
+## $options$ishift
+## [1] 1
+## 
+## $options$maxiter
+## [1] 1000
+## 
+## $options$nb
+## [1] 1
+## 
+## $options$mode
+## [1] 1
+## 
+## $options$start
+## [1] 1
+## 
+## $options$sigma
+## [1] 0
+## 
+## $options$sigmai
+## [1] 0
+## 
+## $options$info
+## [1] 0
+## 
+## $options$iter
+## [1] 7
+## 
+## $options$nconv
+## [1] 1
+## 
+## $options$numop
+## [1] 31
+## 
+## $options$numopb
+## [1] 0
+## 
+## $options$numreo
+## [1] 18
+## 
+## 
+## $centralization
+## [1] 0.5071775
+## 
+## $theoretical_max
+## [1] 16</code></pre>
+<p><strong><em>중개 중심성(Betweenness)</em></strong> (다른 노드들을 연결하는 중개자 위치에 기반한 중심성) : <code>betweenness()</code> 함수, <code>edge_betweenness()</code> 함수 그리고 <code>centr_betw()</code> 함수
+노드나 에지를 거쳐가는 측지 수(number of geodesics).</p>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="중심성과-중심화centrality-centralization.html#cb426-1" aria-hidden="true" tabindex="-1"></a><span class="fu">betweenness</span>(net, <span class="at">directed=</span>T, <span class="at">weights=</span><span class="cn">NA</span>)</span></code></pre></div>
+<pre><code>##         s01         s02         s03         s04         s05         s06 
+##  24.0000000   5.8333333 127.0000000  93.5000000  16.5000000  20.3333333 
+##         s07         s08         s09         s10         s11         s12 
+##   1.8333333  19.5000000   0.8333333  15.0000000   0.0000000  33.5000000 
+##         s13         s14         s15         s16         s17 
+##  20.0000000   4.0000000   5.6666667   0.0000000  58.5000000</code></pre>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="중심성과-중심화centrality-centralization.html#cb428-1" aria-hidden="true" tabindex="-1"></a><span class="fu">edge_betweenness</span>(net, <span class="at">directed=</span>T, <span class="at">weights=</span><span class="cn">NA</span>)</span></code></pre></div>
+<pre><code>##  [1] 10.833333 11.333333  8.333333  9.500000  4.000000 12.500000  3.000000
+##  [8]  2.333333 24.000000 16.000000 31.500000 32.500000  9.500000  6.500000
+## [15] 23.000000 65.333333 11.000000  6.500000 18.000000  8.666667  5.333333
+## [22] 10.000000  6.000000 11.166667 15.000000 21.333333 10.000000  2.000000
+## [29]  1.333333  4.500000 11.833333 16.833333  6.833333 16.833333 31.000000
+## [36] 17.000000 18.000000 14.500000  7.500000 28.500000  3.000000 17.000000
+## [43]  5.666667  9.666667  6.333333  1.000000 15.000000 74.500000</code></pre>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="중심성과-중심화centrality-centralization.html#cb430-1" aria-hidden="true" tabindex="-1"></a><span class="fu">centr_betw</span>(net, <span class="at">directed=</span>T, <span class="at">normalized=</span>T)</span></code></pre></div>
+<pre><code>## $res
+##  [1]  24.0000000   5.8333333 127.0000000  93.5000000  16.5000000  20.3333333
+##  [7]   1.8333333  19.5000000   0.8333333  15.0000000   0.0000000  33.5000000
+## [13]  20.0000000   4.0000000   5.6666667   0.0000000  58.5000000
+## 
+## $centralization
+## [1] 0.4460938
+## 
+## $theoretical_max
+## [1] 3840</code></pre>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="연결-정도-분포degree-distribution.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="허브와-오쏘러티hubs-and-authorities.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +470,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/6-Network_and_Node_Descriptives.Rmd",
 "text": "Edit"
 },
 "history": {

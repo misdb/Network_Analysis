@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>1.11 R 문제 해결 | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="1.11 R 문제 해결 | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="1.11 R 문제 해결 | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="r-플롯과-색-지정.html"/>
+<link rel="next" href="Networks-in-igraph.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+<div id="r-문제-해결" class="section level2" number="1.11">
+<h2><span class="header-section-number">1.11</span> <em>R 문제 해결</em></h2>
+<p>지금까지 R을 사용하면서 많은 (그리고 종종 매우 창의적으로) 에러를 만드는 동안, 종종 저지르는 세 가지의 간단한 것들이 있다. 이를 정리하면 다음과 같다:</p>
+<ol style="list-style-type: decimal">
+<li><em>대문자(Capitalization)의 사용.</em> R은 대소문자를 구분한다. 예를 들어, 그래프의 노드 이름으로 “Jack”과 “jack”은 다르다. 함수 <code>rowSums</code>는 <code>rowsums</code> 또는 <code>RowSums</code>로 사용하면 작동하지 않을 것이다.</li>
+<li><em>개체 클래스(Object class).</em> 많은 함수들이 인수로 다양한 것들을 처리할 수 있지만, 숫자 벡터 대신에 문자 벡터나 factor를 요구하거나, 또는 데이터 프레임 대신에 행렬을 요구할 수 있다. 함수들은 때때로 기대치 않은 형식으로 결과를 반활하기도 할 것이다.</li>
+<li><em>패키지(Package namespaces).</em> 종종 같은 이름을 갖는 함수들을 여러 개의 패키지가 포함하고 있을 때 문제들이 발생한다. R은 이에 대해 경고한다. “The following object(s) are masked from ‘package:igraph’ as you load a package.” 이를 처리하기 위한 한 방법은 함수를 사용할 때 <code>::</code>를 이용하여 패키지를 명시하는 것이다. 예를 들어, <code>blash()</code> 라는 함수가 패키지 <code>A</code>와 패키지 <code>B</code>에 존재한다면, <code>A::blash()</code>와 <code>B::blash()</code> 등과 같이 함수를 호출할 수 있다. 문제가 좀 더 복잡한 다른 경우에는 패키지를 특별한 순서로 불러오거나 아니면 패키지들을 함께 사용하지 않는 것이다. 예를 들어, <code>igraph</code> 패키지와 <code>statnet</code> 패키지는 동시에 불러왔을 때 여러 문제들을 야기한다. 이때, 하나의 패키지를 불러오기 전에 다른 패키지를 <code>detach()</code> 함수로 메모리에서 제거하는 것이 최상의 방법이다.</li>
+</ol>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="r-문제-해결.html#cb191-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">library</span>(igraph)          <span class="co"># 패키지 불러오기</span></span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;igraph&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     decompose, spectrum</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     union</code></pre>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="r-문제-해결.html#cb195-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">detach</span>(package<span class="sc">:</span>igraph)   <span class="co"># 패키지 메모리에서 제거하기</span></span></code></pre></div>
+<p>보다 더 많은 문제해결을 위해서는, <code>try()</code>, <code>tryCatch()</code>, 그리고 <code>debug()</code> 등을 이용할 수 있다.</p>
 
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="r-플롯과-색-지정.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Networks-in-igraph.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +276,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/1-Quick_Reminder_of_R_Basics.Rmd",
 "text": "Edit"
 },
 "history": {

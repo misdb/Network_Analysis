@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>8.2 커뮤니티 발견(Community detection) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="8.2 커뮤니티 발견(Community detection) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="8.2 커뮤니티 발견(Community detection) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="클릭cliques.html"/>
+<link rel="next" href="참고자료-2.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,77 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="커뮤니티-발견community-detection" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> <em>커뮤니티 발견(Community detection)</em></h2>
+<p>다양한 알고리즘이 커뮤니티 탐지를 위해 개발되었다. 커뮤니티 사이는 링크연결이 최소화되고, 커뮤니티 내에는 연결이 조밀하게 많아야 된다.</p>
+<ol style="list-style-type: decimal">
+<li>Newman-Girvan</li>
+<li>라벨 전파(Propagating labels)</li>
+<li>Greedy optimization of modularity</li>
+<li>K-core 분해</li>
+</ol>
+<p><strong>에지 중개 중심성에 기반한 커뮤니티 발견(Newman-Girvan)</strong>
+높은 중개 에지 중심성들이 (각 단계마다 다시 계산하여) 순차적으로 제거되고, 가장 좋은 네트워크의 분할이 선택된다 : <code>cluster_edge_betweenness()</code> 함수</p>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="커뮤니티-발견community-detection.html#cb459-1" aria-hidden="true" tabindex="-1"></a>ceb <span class="ot">&lt;-</span> <span class="fu">cluster_edge_betweenness</span>(net) </span></code></pre></div>
+<pre><code>## Warning in cluster_edge_betweenness(net): At community.c:460 :Membership vector
+## will be selected based on the lowest modularity score.</code></pre>
+<pre><code>## Warning in cluster_edge_betweenness(net): At community.c:467 :Modularity
+## calculation with weighted edge betweenness community detection might not make
+## sense -- modularity treats edge weights as similarities while edge betwenness
+## treats them as distances</code></pre>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="커뮤니티-발견community-detection.html#cb462-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dendPlot</span>(ceb, <span class="at">mode=</span><span class="st">&quot;hclust&quot;</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="커뮤니티-발견community-detection.html#cb463-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ceb, net) </span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-137-2.png" width="672" /></p>
+<p>커뮤니티 탐지 <code>igraph</code> 개체를 검토해 보자 : <code>membership()</code> 함수, <code>modularity()</code> 함수 그리고 <code>crossing()</code> 함수</p>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="커뮤니티-발견community-detection.html#cb464-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ceb)</span></code></pre></div>
+<pre><code>## [1] &quot;communities&quot;</code></pre>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="커뮤니티-발견community-detection.html#cb466-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(ceb)          <span class="co"># 커뮤니티 수</span></span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="커뮤니티-발견community-detection.html#cb468-1" aria-hidden="true" tabindex="-1"></a><span class="fu">membership</span>(ceb)      <span class="co"># 각 노드의 커뮤니티 소속</span></span></code></pre></div>
+<pre><code>## s01 s02 s03 s04 s05 s06 s07 s08 s09 s10 s11 s12 s13 s14 s15 s16 s17 
+##   1   2   3   4   1   4   3   3   5   5   4   4   4   4   1   4   4</code></pre>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="커뮤니티-발견community-detection.html#cb470-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modularity</span>(ceb)      <span class="co"># 그래프 분할의 모듈성</span></span></code></pre></div>
+<pre><code>## [1] 0.292476</code></pre>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="커뮤니티-발견community-detection.html#cb472-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crossing</span>(ceb, net)   <span class="co"># 부울리안 벡터 : 커뮤니티와 교차하는 에지들은 TRUE</span></span></code></pre></div>
+<pre><code>## s01|s02 s01|s03 s01|s04 s01|s15 s02|s01 s02|s03 s02|s09 s02|s10 s03|s01 s03|s04 
+##    TRUE    TRUE    TRUE   FALSE    TRUE    TRUE    TRUE    TRUE    TRUE    TRUE 
+## s03|s05 s03|s08 s03|s10 s03|s11 s03|s12 s04|s03 s04|s06 s04|s11 s04|s12 s04|s17 
+##    TRUE   FALSE    TRUE    TRUE    TRUE    TRUE   FALSE   FALSE   FALSE   FALSE 
+## s05|s01 s05|s02 s05|s09 s05|s15 s06|s16 s06|s17 s07|s03 s07|s08 s07|s10 s07|s14 
+##   FALSE    TRUE    TRUE   FALSE   FALSE   FALSE   FALSE   FALSE    TRUE    TRUE 
+## s08|s03 s08|s07 s08|s09 s09|s10 s10|s03 s12|s06 s12|s13 s12|s14 s13|s12 s13|s17 
+##   FALSE   FALSE    TRUE   FALSE    TRUE   FALSE   FALSE   FALSE   FALSE   FALSE 
+## s14|s11 s14|s13 s15|s01 s15|s04 s15|s06 s16|s06 s16|s17 s17|s04 
+##   FALSE   FALSE   FALSE    TRUE    TRUE   FALSE   FALSE   FALSE</code></pre>
+<p>분할의 높은 모듈성(High modularity)은 커뮤니티 내의 강한 연결성(dense connection)과 커뮤니티 간의 약한 연결성(sparse connection)을 반영한다.</p>
+<p><strong>전파 라벨(propagating lables)에 기반한 커뮤니티 탐지</strong></p>
+<p>노드에 라벨을 할당하고, 랜덤화한 다음, 이웃 사이에 가장 자주 나타나는 각 정점의 라벨로 대체한다 이 절차들은 각 정점이 이웃들과 가장 공통적인 라벨을 가질 때까지 반복 수행된다.</p>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="커뮤니티-발견community-detection.html#cb474-1" aria-hidden="true" tabindex="-1"></a>clp <span class="ot">&lt;-</span> <span class="fu">cluster_label_prop</span>(net)</span>
+<span id="cb474-2"><a href="커뮤니티-발견community-detection.html#cb474-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(clp, net)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-139-1.png" width="672" /></p>
+<p><strong>모듈성의 탐욕적 최적화(greedy optimization of modularity)에 기반한 커뮤니티 탐지</strong></p>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="커뮤니티-발견community-detection.html#cb475-1" aria-hidden="true" tabindex="-1"></a>cfg <span class="ot">&lt;-</span> <span class="fu">cluster_fast_greedy</span>(<span class="fu">as.undirected</span>(net))</span>
+<span id="cb475-2"><a href="커뮤니티-발견community-detection.html#cb475-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cfg, <span class="fu">as.undirected</span>(net))</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-140-1.png" width="672" /></p>
+<p>내장된 plot() 함수에 의존하지 않고도 커뮤니티를 시각화할 수 있다.</p>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="커뮤니티-발견community-detection.html#cb476-1" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(net)<span class="sc">$</span>community <span class="ot">&lt;-</span> cfg<span class="sc">$</span>membership</span>
+<span id="cb476-2"><a href="커뮤니티-발견community-detection.html#cb476-2" aria-hidden="true" tabindex="-1"></a>colrs <span class="ot">&lt;-</span> <span class="fu">adjustcolor</span>( <span class="fu">c</span>(<span class="st">&quot;gray50&quot;</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;gold&quot;</span>, <span class="st">&quot;yellowgreen&quot;</span>), <span class="at">alpha=</span>.<span class="dv">6</span>)</span>
+<span id="cb476-3"><a href="커뮤니티-발견community-detection.html#cb476-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net, <span class="at">vertex.color=</span>colrs[<span class="fu">V</span>(net)<span class="sc">$</span>community])</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-141-1.png" width="672" /></p>
+<p><strong>K-코어 분할(K-core decomposition)</strong></p>
+<p>k-core는 모든 노드들이 최소한 k의 연결중심성을 갖는 최대의 서브그래프이다. 결과는 네트워크 내에 있는 각 정점들의 coreness이다. 만일 한 노드가 D-코어에 속하지만, (D+1) –코어에 속하지 않는다면, 그 노드의 coreness는 D가 된다.</p>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="커뮤니티-발견community-detection.html#cb477-1" aria-hidden="true" tabindex="-1"></a>kc <span class="ot">&lt;-</span> <span class="fu">coreness</span>(net, <span class="at">mode=</span><span class="st">&quot;all&quot;</span>)</span>
+<span id="cb477-2"><a href="커뮤니티-발견community-detection.html#cb477-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net, <span class="at">vertex.size=</span>kc<span class="sc">*</span><span class="dv">6</span>, <span class="at">vertex.label=</span>kc, <span class="at">vertex.color=</span>colrs[kc])</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-142-1.png" width="672" /></p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="클릭cliques.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="참고자료-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +318,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/8-Subgroups_and_Communities.Rmd",
 "text": "Edit"
 },
 "history": {

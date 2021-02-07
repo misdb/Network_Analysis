@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>6.1 밀도(Density) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="6.1 밀도(Density) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="6.1 밀도(Density) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="Network-and-Node-Description.html"/>
+<link rel="next" href="호혜성reciprocity.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="밀도density" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> <em>밀도(Density)</em></h2>
+<p>네트워크에 있는 <code>모든 가능한 에지들 대비 현존 에지들의 비율</code>을 <strong>밀도</strong>라고 한다.</p>
+<p><strong>밀도(density)</strong>는 네트워크에서 노드 간의 전반적인 연결정도 수준을 나타낸다.</p>
+<ul>
+<li>밀도는 네트워크 내에 존재하는 최대 가능한 라인의 개수 대비 실제 존재하는 라인의 개수의 비율로 측정한다.</li>
+<li>밀도가 높은 네트워크에 대해 우리는 일반적으로 <em>응집력(cohesion)이 높다</em>고 이야기한다</li>
+</ul>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="밀도density.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="fu">edge_density</span>(net, <span class="at">loops=</span>F)</span></code></pre></div>
+<pre><code>## [1] 0.1764706</code></pre>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="밀도density.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ecount</span>(net)<span class="sc">/</span>(<span class="fu">vcount</span>(net)<span class="sc">*</span>(<span class="fu">vcount</span>(net)<span class="sc">-</span><span class="dv">1</span>))  <span class="co"># 방향성 네트워크의 경우</span></span></code></pre></div>
+<pre><code>## [1] 0.1764706</code></pre>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="Network-and-Node-Description.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="호혜성reciprocity.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +267,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/6-Network_and_Node_Descriptives.Rmd",
 "text": "Edit"
 },
 "history": {

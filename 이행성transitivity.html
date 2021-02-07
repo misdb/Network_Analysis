@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>6.3 이행성(Transitivity) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="6.3 이행성(Transitivity) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="6.3 이행성(Transitivity) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="호혜성reciprocity.html"/>
+<link rel="next" href="지름diameter.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="이행성transitivity" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> <em>이행성(Transitivity)</em></h2>
+<p>호혜성은 두 액터(정점, 노드) 간의 관계로부터 정의되는 반면, 이행성(transitivity)은 세 액터(정점, 노드) 간의 관계인 삼자관계(triad)를 기반으 로 한다.</p>
+<p>삼자관계는 세 개의 액터와 그 액터들 간의 연결관계로 구성된다. (삼자관계에 대한 분석은 기본적으로 방향/이진 그 래프를 대상으로 한다.)</p>
+<ul>
+<li>A가 B에 연결되어 있고 B는 C에 연결되어 있을 때 A가 C에 대해 연결관계를 가지면 이 삼자관계는 이행성을 충족한다 고 얘기한다.
+<ul>
+<li>즉 A → B이고 B → C이면서 동시에 A → C인 삼자관계는 이행성을 충족한다.</li>
+<li>네트워크 내에 이행성을 충족하는 삼자관계가 많을수록 그 네트워크는 군집화된 구조(clumpy structure)를 갖게 되는 경향이 있다.</li>
+<li>따라서 이런 의미에서 이행성은 네트워크의 군집화 및 구조적 균형의 정도를 나타낸다.</li>
+</ul></li>
+</ul>
+<p>이행성의 측정 :</p>
+<ul>
+<li>전체(<code>global</code>) - 연결된 삼각관계(triples)에 대한 삼각형(triangle)(방향)의 비율</li>
+<li>부분(<code>local</code>) - 각 정점이 부분인 연결된 삼각관계에 대한 삼각형의 비율</li>
+</ul>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="이행성transitivity.html#cb392-1" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(net, <span class="at">type=</span><span class="st">&quot;global&quot;</span>)                  <span class="co"># net는 무방향 네트워크로 처리됨</span></span></code></pre></div>
+<pre><code>## [1] 0.372549</code></pre>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="이행성transitivity.html#cb394-1" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(<span class="fu">as.undirected</span>(net, <span class="at">mode=</span><span class="st">&quot;collapse&quot;</span>)) <span class="co"># 위와 같음</span></span></code></pre></div>
+<pre><code>## [1] 0.372549</code></pre>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="이행성transitivity.html#cb396-1" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(net, <span class="at">type=</span><span class="st">&quot;local&quot;</span>)</span></code></pre></div>
+<pre><code>##  [1] 0.2142857 0.4000000 0.1153846 0.1944444 0.5000000 0.2666667 0.2000000
+##  [8] 0.1000000 0.3333333 0.3000000 0.3333333 0.2000000 0.1666667 0.1666667
+## [15] 0.3000000 0.3333333 0.2000000</code></pre>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="이행성transitivity.html#cb398-1" aria-hidden="true" tabindex="-1"></a><span class="fu">triad_census</span>(net)                                 <span class="co"># 방향성 네트워크에 대해</span></span></code></pre></div>
+<pre><code>##  [1] 244 241  80  13  11  27  15  22   4   1   8   4   4   3   3   0</code></pre>
+<p><em>삼자관계 유형(Triad types) (per Davis &amp; Leinhardt):</em></p>
+<ul>
+<li><p>삼자관계는 총 16가지 유형으로 분류해 볼 수 있으며 이렇게 분류된 삼자관계유형은 네트워크의 구조적 특징 및 이행성 정도를 측정하는 데 활용된다.</p></li>
+<li><p>네트워크 내에 삼자관계 각 유형이 어느 정 도 출현하는지를 조사하여 네트워크의 구조 적 특성을 이해하는 것을 <strong><em>삼자관계 센서스 (triad census)</em></strong>라고 한다.</p>
+<ul>
+<li>003 A, B, C, 빈 삼자관계.</li>
+<li>012 A-&gt;B, C</li>
+<li>102 A&lt;-&gt;B, C</li>
+<li>021D A&lt;-B-&gt;C</li>
+<li>021U A-&gt;B&lt;-C</li>
+<li>021C A-&gt;B-&gt;C</li>
+<li>111D A&lt;-&gt;B&lt;-C</li>
+<li>111U A&lt;-&gt;B-&gt;C</li>
+<li>030T A-&gt;B&lt;-C, A-&gt;C</li>
+<li>030C A&lt;-B&lt;-C, A-&gt;C.</li>
+<li>201 A&lt;-&gt;B&lt;-&gt;C.</li>
+<li>120D A&lt;-B-&gt;C, A&lt;-&gt;C.</li>
+<li>120U A-&gt;B&lt;-C, A&lt;-&gt;C.</li>
+<li>120C A-&gt;B-&gt;C, A&lt;-&gt;C.</li>
+<li>210 A-&gt;B&lt;-&gt;C, A&lt;-&gt;C.</li>
+<li>300 A&lt;-&gt;B&lt;-&gt;C, A&lt;-&gt;C, 완전 연결</li>
+</ul></li>
+</ul>
+<p><img src="images/search_console/image-20201205231217382.png" alt="image-20201205231217382" style="zoom:67%;" /></p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="호혜성reciprocity.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="지름diameter.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +306,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/6-Network_and_Node_Descriptives.Rmd",
 "text": "Edit"
 },
 "history": {

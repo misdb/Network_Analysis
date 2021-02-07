@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>6.2 호혜성(Reciprocity) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="6.2 호혜성(Reciprocity) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="6.2 호혜성(Reciprocity) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="밀도density.html"/>
+<link rel="next" href="이행성transitivity.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="호혜성reciprocity" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> <em>호혜성(Reciprocity)</em></h2>
+<p>호혜성 : (방향성 네트워크에서의) 호혜적인 연결의 비율</p>
+<ul>
+<li>액터들 간 연결관계의 상호 호혜적 관계를 <strong>호혜성(reciprocity)</strong>이라 한다.
+<ul>
+<li>A에서 B로 향하는 연결관계가 존재하고 동시에 B에서 A로 향하는 연결관계가 존재하는 경우</li>
+<li>네트워크의 응집성 정도</li>
+</ul></li>
+<li>네트워크 간 호혜성의 차이는 종종 네트워크 구조의 계층적 특성, 힘이나 부의 불균형, 문화적 차이 등에 의해 설명된다(Borgatti et al. 2013)</li>
+</ul>
+<p>호혜성의 측정 :</p>
+<ul>
+<li>양자관계(dyad)에 초점을 맞춰서 호혜성을 측정
+<ul>
+<li>전체 연결된 액터쌍 대비 호혜적 액터쌍의 비율을 측정</li>
+<li>두 개의 연결된 액터쌍(AB, BC)이 존재하고 이 중 호혜적 액터 쌍(AB)의 개수는 한 개이다. 따라서 호혜성 비율은 0.5(= 1 2 )가 된다.</li>
+</ul></li>
+<li>선택관계(arc)에 초점을 맞춰서 호혜성을 측정
+<ul>
+<li>방향성을 고려한 선택관계 대비 호혜적 관계구조를 형성하는 라인의 비율을 측정</li>
+<li>방향성을 고려한 선택관계는 세 개(AB, BA, BC)가 존재하고 그 중 두 개(AB, BA)가 상호 호혜적 관계구조를 형성한다.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="호혜성reciprocity.html#cb386-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reciprocity</span>(net)</span></code></pre></div>
+<pre><code>## [1] 0.4166667</code></pre>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="호혜성reciprocity.html#cb388-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dyad_census</span>(net) <span class="co"># Mutual, asymmetric, and nyll node pairs</span></span></code></pre></div>
+<pre><code>## $mut
+## [1] 10
+## 
+## $asym
+## [1] 28
+## 
+## $null
+## [1] 98</code></pre>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="호혜성reciprocity.html#cb390-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span><span class="fu">dyad_census</span>(net)<span class="sc">$</span>mut<span class="sc">/</span><span class="fu">ecount</span>(net) <span class="co"># Calculating reciprocity</span></span></code></pre></div>
+<pre><code>## [1] 0.4166667</code></pre>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="밀도density.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="이행성transitivity.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +292,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/6-Network_and_Node_Descriptives.Rmd",
 "text": "Edit"
 },
 "history": {

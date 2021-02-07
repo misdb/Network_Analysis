@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>3.2 데이터 세트 2: 인접 행렬(adjacent matrix) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="3.2 데이터 세트 2: 인접 행렬(adjacent matrix) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="3.2 데이터 세트 2: 인접 행렬(adjacent matrix) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="데이터-세트-1-에지-목록edgelist.html"/>
+<link rel="next" href="Turning-Networks-into-Igraph.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+<div id="데이터-세트-2-인접-행렬adjacent-matrix" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> <em>데이터 세트 2: 인접 행렬(adjacent matrix)</em></h2>
+<p>이분할 그래프(Two-mode or bipartite graphs)는 두 개의 서로 다른 유형의 actor와 상호간의 링크를 가지지만, 각 유형 내에서는 그렇지 않다. 두 번째 미디어 예제는 이런 종류의 네트워크로 뉴스 출처와 그들 소비자 간의 링크를 검토한다.</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="데이터-세트-2-인접-행렬adjacent-matrix.html#cb272-1" aria-hidden="true" tabindex="-1"></a>nodes2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Dataset2-Media-User-Example-NODES.csv&quot;</span>, </span>
+<span id="cb272-2"><a href="데이터-세트-2-인접-행렬adjacent-matrix.html#cb272-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">header=</span>T, <span class="at">as.is=</span>T)</span>
+<span id="cb272-3"><a href="데이터-세트-2-인접-행렬adjacent-matrix.html#cb272-3" aria-hidden="true" tabindex="-1"></a>links2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Dataset2-Media-User-Example-EDGES.csv&quot;</span>, </span>
+<span id="cb272-4"><a href="데이터-세트-2-인접-행렬adjacent-matrix.html#cb272-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">header=</span>T, <span class="at">row.names=</span><span class="dv">1</span>)</span></code></pre></div>
+<p>데이터 검토:</p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="데이터-세트-2-인접-행렬adjacent-matrix.html#cb273-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nodes2)</span></code></pre></div>
+<pre><code>##    id   media media.type media.name audience.size
+## 1 s01     NYT          1  Newspaper            20
+## 2 s02    WaPo          1  Newspaper            25
+## 3 s03     WSJ          1  Newspaper            30
+## 4 s04    USAT          1  Newspaper            32
+## 5 s05 LATimes          1  Newspaper            20
+## 6 s06     CNN          2         TV            56</code></pre>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="데이터-세트-2-인접-행렬adjacent-matrix.html#cb275-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(links2)</span></code></pre></div>
+<pre><code>##     U01 U02 U03 U04 U05 U06 U07 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19
+## s01   1   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+## s02   0   0   0   1   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+## s03   0   0   0   0   0   1   1   1   1   0   0   0   0   0   0   0   0   0   0
+## s04   0   0   0   0   0   0   0   0   1   1   1   0   0   0   0   0   0   0   0
+## s05   0   0   0   0   0   0   0   0   0   0   1   1   1   0   0   0   0   0   0
+## s06   0   0   0   0   0   0   0   0   0   0   0   0   1   1   0   0   1   0   0
+##     U20
+## s01   0
+## s02   1
+## s03   0
+## s04   0
+## s05   0
+## s06   0</code></pre>
+<p>우리는 <code>links2</code>가 이분할 네트워크의 <em>인접행렬(adjacent matrix)</em>임을 알 수 있다.</p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="데이터-세트-2-인접-행렬adjacent-matrix.html#cb277-1" aria-hidden="true" tabindex="-1"></a>links2 <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(links2)</span>
+<span id="cb277-2"><a href="데이터-세트-2-인접-행렬adjacent-matrix.html#cb277-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(links2)</span></code></pre></div>
+<pre><code>## [1] 10 20</code></pre>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="데이터-세트-2-인접-행렬adjacent-matrix.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(nodes2)</span></code></pre></div>
+<pre><code>## [1] 30  5</code></pre>
 
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="데이터-세트-1-에지-목록edgelist.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Turning-Networks-into-Igraph.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +294,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/3-Reading_network_data_from_files.Rmd",
 "text": "Edit"
 },
 "history": {

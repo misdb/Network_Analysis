@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>5.5 igraph로 2-모드 네트워크 시각화하기 | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="5.5 igraph로 2-모드 네트워크 시각화하기 | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="5.5 igraph로 2-모드 네트워크 시각화하기 | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="다른-네트워크-시각화-방법.html"/>
+<link rel="next" href="참고자료.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="igraph로-2-모드-네트워크-시각화하기" class="section level2" number="5.5">
+<h2><span class="header-section-number">5.5</span> <em>igraph로 2-모드 네트워크 시각화하기</em></h2>
+<p>1-모드 네트워크에서는 네트워크를 플롯팅할 때 기본 기본 값으로 사용될 수 있는 시각화 속성들을 포함하여 네트워크 개체를 수정할 수 있다. 이번에는 노드의 모양- <code>media</code>는 정사각형으로 그리고 그들의 사용자들은 원형으로-을 변경할 수 있음을 주목하라.</p>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="igraph로-2-모드-네트워크-시각화하기.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(net2)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;steel blue&quot;</span>, <span class="st">&quot;orange&quot;</span>)[<span class="fu">V</span>(net2)<span class="sc">$</span>type<span class="sc">+</span><span class="dv">1</span>]</span>
+<span id="cb379-2"><a href="igraph로-2-모드-네트워크-시각화하기.html#cb379-2" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(net2)<span class="sc">$</span>shape <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;square&quot;</span>, <span class="st">&quot;circle&quot;</span>)[<span class="fu">V</span>(net2)<span class="sc">$</span>type<span class="sc">+</span><span class="dv">1</span>]</span>
+<span id="cb379-3"><a href="igraph로-2-모드-네트워크-시각화하기.html#cb379-3" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(net2)<span class="sc">$</span>label <span class="ot">&lt;-</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb379-4"><a href="igraph로-2-모드-네트워크-시각화하기.html#cb379-4" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(net2)<span class="sc">$</span>label[<span class="fu">V</span>(net2)<span class="sc">$</span>type<span class="sc">==</span>F] <span class="ot">&lt;-</span> nodes2<span class="sc">$</span>media[<span class="fu">V</span>(net2)<span class="sc">$</span>type<span class="sc">==</span>F] </span>
+<span id="cb379-5"><a href="igraph로-2-모드-네트워크-시각화하기.html#cb379-5" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(net2)<span class="sc">$</span>label.cex<span class="ot">=</span>.<span class="dv">4</span></span>
+<span id="cb379-6"><a href="igraph로-2-모드-네트워크-시각화하기.html#cb379-6" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(net2)<span class="sc">$</span>label.font<span class="ot">=</span><span class="dv">2</span></span>
+<span id="cb379-7"><a href="igraph로-2-모드-네트워크-시각화하기.html#cb379-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb379-8"><a href="igraph로-2-모드-네트워크-시각화하기.html#cb379-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net2, <span class="at">vertex.label.color=</span><span class="st">&quot;white&quot;</span>, <span class="at">vertex.size=</span>(<span class="dv">2</span><span class="sc">-</span><span class="fu">V</span>(net2)<span class="sc">$</span>type)<span class="sc">*</span><span class="dv">8</span>) </span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
+<p>igraph는 또한 이분할 네트워크를 위한 특별한 레이아웃을 가지고 있다(비록 항상 잘 작동되는 것은 아니지만, 자신만의 이분할 레이아웃을 생성하고자 할 때 더 잘 표현할 수 있다).</p>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="igraph로-2-모드-네트워크-시각화하기.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net2, <span class="at">vertex.label=</span><span class="cn">NA</span>, <span class="at">vertex.size=</span><span class="dv">7</span>, <span class="at">layout=</span>layout_as_bipartite) </span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-111-1.png" width="672" /></p>
+<p>때때로 노드를 텍스트로 사용하는 것도 유용할 때가 있다 :</p>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="igraph로-2-모드-네트워크-시각화하기.html#cb381-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net2, <span class="at">vertex.shape=</span><span class="st">&quot;none&quot;</span>, <span class="at">vertex.label=</span>nodes2<span class="sc">$</span>media,</span>
+<span id="cb381-2"><a href="igraph로-2-모드-네트워크-시각화하기.html#cb381-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label.color=</span><span class="fu">V</span>(net2)<span class="sc">$</span>color, <span class="at">vertex.label.font=</span><span class="fl">2.5</span>, </span>
+<span id="cb381-3"><a href="igraph로-2-모드-네트워크-시각화하기.html#cb381-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label.cex=</span>.<span class="dv">6</span>, <span class="at">edge.color=</span><span class="st">&quot;gray70&quot;</span>,  <span class="at">edge.width=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="다른-네트워크-시각화-방법.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="참고자료.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +275,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/5-Plotting_Networks_with_igraph.Rmd",
 "text": "Edit"
 },
 "history": {

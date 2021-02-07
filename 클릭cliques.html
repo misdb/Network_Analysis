@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>8.1 클릭(Cliques) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="8.1 클릭(Cliques) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="8.1 클릭(Cliques) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="Subgroups-and-Communities.html"/>
+<link rel="next" href="커뮤니티-발견community-detection.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,330 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="클릭cliques" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> <em>클릭(Cliques)</em></h2>
+<p>클릭(cliques)를 통해 방향성 없는 그래프 전체가 연결된 하위집단을 식별한다.</p>
+<p>(무방향 그래프의 완전한 서브 그룹인) <strong>클릭</strong>을 찾아보자 : <code>cliques()</code> 함수</p>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="클릭cliques.html#cb452-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cliques</span>(net.sym)                    <span class="co"># 클릭 목록</span></span></code></pre></div>
+<pre><code>## [[1]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s03
+## 
+## [[2]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s06
+## 
+## [[3]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s14
+## 
+## [[4]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s09
+## 
+## [[5]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s04
+## 
+## [[6]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s04 s06
+## 
+## [[7]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s03 s04
+## 
+## [[8]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s05
+## 
+## [[9]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s05 s09
+## 
+## [[10]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s03 s05
+## 
+## [[11]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s13
+## 
+## [[12]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s13 s14
+## 
+## [[13]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s10
+## 
+## [[14]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s09 s10
+## 
+## [[15]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s03 s10
+## 
+## [[16]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s16
+## 
+## [[17]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s06 s16
+## 
+## [[18]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s08
+## 
+## [[19]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s08 s09
+## 
+## [[20]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s03 s08
+## 
+## [[21]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s01
+## 
+## [[22]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s01 s05
+## 
+## [[23]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s01 s03 s05
+## 
+## [[24]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s01 s04
+## 
+## [[25]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s01 s03 s04
+## 
+## [[26]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s01 s03
+## 
+## [[27]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s17
+## 
+## [[28]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s16 s17
+## 
+## [[29]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s06 s16 s17
+## 
+## [[30]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s13 s17
+## 
+## [[31]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s04 s17
+## 
+## [[32]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s04 s06 s17
+## 
+## [[33]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s06 s17
+## 
+## [[34]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s12
+## 
+## [[35]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s12 s13
+## 
+## [[36]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s12 s13 s14
+## 
+## [[37]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s04 s12
+## 
+## [[38]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s04 s06 s12
+## 
+## [[39]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s03 s04 s12
+## 
+## [[40]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s12 s14
+## 
+## [[41]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s06 s12
+## 
+## [[42]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s03 s12
+## 
+## [[43]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s11
+## 
+## [[44]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s04 s11
+## 
+## [[45]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s03 s04 s11
+## 
+## [[46]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s11 s14
+## 
+## [[47]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s03 s11
+## 
+## [[48]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s07
+## 
+## [[49]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s07 s08
+## 
+## [[50]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s03 s07 s08
+## 
+## [[51]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s07 s10
+## 
+## [[52]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s03 s07 s10
+## 
+## [[53]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s07 s14
+## 
+## [[54]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s03 s07
+## 
+## [[55]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s15
+## 
+## [[56]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s01 s15
+## 
+## [[57]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s01 s05 s15
+## 
+## [[58]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s01 s04 s15
+## 
+## [[59]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s05 s15
+## 
+## [[60]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s04 s15
+## 
+## [[61]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s04 s06 s15
+## 
+## [[62]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s06 s15
+## 
+## [[63]]
+## + 1/17 vertex, named, from d81d2a6:
+## [1] s02
+## 
+## [[64]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s01 s02
+## 
+## [[65]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s01 s02 s05
+## 
+## [[66]]
+## + 4/17 vertices, named, from d81d2a6:
+## [1] s01 s02 s03 s05
+## 
+## [[67]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s01 s02 s03
+## 
+## [[68]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s02 s10
+## 
+## [[69]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s02 s09 s10
+## 
+## [[70]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s02 s03 s10
+## 
+## [[71]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s02 s05
+## 
+## [[72]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s02 s05 s09
+## 
+## [[73]]
+## + 3/17 vertices, named, from d81d2a6:
+## [1] s02 s03 s05
+## 
+## [[74]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s02 s09
+## 
+## [[75]]
+## + 2/17 vertices, named, from d81d2a6:
+## [1] s02 s03</code></pre>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="클릭cliques.html#cb454-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">cliques</span>(net.sym), length)    <span class="co"># 클릭 크기</span></span></code></pre></div>
+<pre><code>##  [1] 1 1 1 1 1 2 2 1 2 2 1 2 1 2 2 1 2 1 2 2 1 2 3 2 3 2 1 2 3 2 2 3 2 1 2 3 2 3
+## [39] 3 2 2 2 1 2 3 2 2 1 2 3 2 3 2 2 1 2 3 3 2 2 3 2 1 2 3 4 3 2 3 3 2 3 3 2 2</code></pre>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="클릭cliques.html#cb456-1" aria-hidden="true" tabindex="-1"></a><span class="fu">largest_cliques</span>(net.sym)            <span class="co"># 최대 수의 노드를 갖는 클릭</span></span></code></pre></div>
+<pre><code>## [[1]]
+## + 4/17 vertices, named, from d81d2a6:
+## [1] s03 s01 s02 s05</code></pre>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="클릭cliques.html#cb458-1" aria-hidden="true" tabindex="-1"></a>vcol <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;grey80&quot;</span>, <span class="fu">vcount</span>(net.sym))</span>
+<span id="cb458-2"><a href="클릭cliques.html#cb458-2" aria-hidden="true" tabindex="-1"></a>vcol[<span class="fu">unlist</span>(<span class="fu">largest_cliques</span>(net.sym))] <span class="ot">&lt;-</span> <span class="st">&quot;gold&quot;</span></span>
+<span id="cb458-3"><a href="클릭cliques.html#cb458-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb458-4"><a href="클릭cliques.html#cb458-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.undirected</span>(net.sym), <span class="at">vertex.label=</span><span class="fu">V</span>(net.sym)<span class="sc">$</span>name, <span class="at">vertex.color=</span>vcol)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-136-1.png" width="672" /></p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="Subgroups-and-Communities.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="커뮤니티-발견community-detection.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +571,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/8-Subgroups_and_Communities.Rmd",
 "text": "Edit"
 },
 "history": {

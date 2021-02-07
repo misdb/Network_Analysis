@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>1.8 데이터 프레임(Data Frames) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="1.8 데이터 프레임(Data Frames) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="1.8 데이터 프레임(Data Frames) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="리스트lists.html"/>
+<link rel="next" href="흐름-제어와-반복-구문flow-control-and-loops.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="데이터-프레임data-frames" class="section level2" number="1.8">
+<h2><span class="header-section-number">1.8</span> <em>데이터 프레임(Data Frames)</em></h2>
+<p>데이터 프레임은 데이터 세트 테이블을 저장하는데 사용되는 특별한 종류의 리스트이다. 각 행은 데이터의 사례를 각 열은 변수로 생각하면 된다. 각 열은 벡터 또는 factor이다.</p>
+<p><strong>데이터 프레임의 생성</strong> :</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="데이터-프레임data-frames.html#cb149-1" aria-hidden="true" tabindex="-1"></a>dfr1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">ID=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb149-2"><a href="데이터-프레임data-frames.html#cb149-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">FirstName=</span><span class="fu">c</span>(<span class="st">&quot;John&quot;</span>,<span class="st">&quot;Jim&quot;</span>,<span class="st">&quot;Jane&quot;</span>,<span class="st">&quot;Jill&quot;</span>),</span>
+<span id="cb149-3"><a href="데이터-프레임data-frames.html#cb149-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Female=</span><span class="fu">c</span>(F,F,T,T), </span>
+<span id="cb149-4"><a href="데이터-프레임data-frames.html#cb149-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Age=</span><span class="fu">c</span>(<span class="dv">22</span>,<span class="dv">33</span>,<span class="dv">44</span>,<span class="dv">55</span>) )</span>
+<span id="cb149-5"><a href="데이터-프레임data-frames.html#cb149-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dfr1)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    4 obs. of  4 variables:
+##  $ ID       : int  1 2 3 4
+##  $ FirstName: chr  &quot;John&quot; &quot;Jim&quot; &quot;Jane&quot; &quot;Jill&quot;
+##  $ Female   : logi  FALSE FALSE TRUE TRUE
+##  $ Age      : num  22 33 44 55</code></pre>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="데이터-프레임data-frames.html#cb151-1" aria-hidden="true" tabindex="-1"></a>dfr1<span class="sc">$</span>FirstName       <span class="co"># dfr1의 두 번째 컬럼 접근</span></span></code></pre></div>
+<pre><code>## [1] &quot;John&quot; &quot;Jim&quot;  &quot;Jane&quot; &quot;Jill&quot;</code></pre>
+<p>여기서, R(R 4.0 이전 버전)은 <code>dfr1$FirstName</code> 은 범주형 변수라고 생각하고, 문자 벡터가 아닌 factor 처럼 처리할 것이라는 점을 주목하라. <code>as.vector()</code> 함수를 이용하여 R에게 <code>FirstName</code>을 factor가 아닌 벡터로 처리하게 하자 :</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="데이터-프레임data-frames.html#cb153-1" aria-hidden="true" tabindex="-1"></a>dfr1<span class="sc">$</span>FirstName <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(dfr1<span class="sc">$</span>FirstName)   <span class="co"># as.factor() : factor로 변환</span></span></code></pre></div>
+<p>다른 방법으로, <code>stringsAsFactors=FALSE</code>를 사용하여 처음부터 factor로 처리하지 않도록 할 수 있다. (R 4.0 이후에는 기본적으로 이렇게 설정되어 있다.)</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="데이터-프레임data-frames.html#cb154-1" aria-hidden="true" tabindex="-1"></a>dfr2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">FirstName=</span><span class="fu">c</span>(<span class="st">&quot;John&quot;</span>,<span class="st">&quot;Jim&quot;</span>,<span class="st">&quot;Jane&quot;</span>,<span class="st">&quot;Jill&quot;</span>), </span>
+<span id="cb154-2"><a href="데이터-프레임data-frames.html#cb154-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb154-3"><a href="데이터-프레임data-frames.html#cb154-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb154-4"><a href="데이터-프레임data-frames.html#cb154-4" aria-hidden="true" tabindex="-1"></a>dfr2<span class="sc">$</span>FirstName       <span class="co"># Factor가 아님 : 성공</span></span></code></pre></div>
+<pre><code>## [1] &quot;John&quot; &quot;Jim&quot;  &quot;Jane&quot; &quot;Jill&quot;</code></pre>
+<p>데이터 프레임의 요소 접근 :</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="데이터-프레임data-frames.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 행/열 접근</span></span>
+<span id="cb156-2"><a href="데이터-프레임data-frames.html#cb156-2" aria-hidden="true" tabindex="-1"></a>dfr1[<span class="dv">1</span>,]             <span class="co"># 첫 번째 행, 모든 열</span></span></code></pre></div>
+<pre><code>##   ID FirstName Female Age
+## 1  1      John  FALSE  22</code></pre>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="데이터-프레임data-frames.html#cb158-1" aria-hidden="true" tabindex="-1"></a>dfr1[,<span class="dv">1</span>]             <span class="co"># 첫 번째 열, 모든 행</span></span></code></pre></div>
+<pre><code>## [1] 1 2 3 4</code></pre>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="데이터-프레임data-frames.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Age 이름의 열 접근</span></span>
+<span id="cb160-2"><a href="데이터-프레임data-frames.html#cb160-2" aria-hidden="true" tabindex="-1"></a>dfr1<span class="sc">$</span>Age             <span class="co"># Age 열, 모든 행</span></span></code></pre></div>
+<pre><code>## [1] 22 33 44 55</code></pre>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="데이터-프레임data-frames.html#cb162-1" aria-hidden="true" tabindex="-1"></a>dfr1[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]        <span class="co"># 1행, 2행 그리고 3열과 4열 - &quot;john&quot;과 &quot;jim&quot;의 &quot;gender&quot;와 &quot;age&quot;</span></span></code></pre></div>
+<pre><code>##   Female Age
+## 1  FALSE  22
+## 2  FALSE  33</code></pre>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="데이터-프레임data-frames.html#cb164-1" aria-hidden="true" tabindex="-1"></a>dfr1[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>),]        <span class="co"># 1행과 3행 그리고 모든 열</span></span></code></pre></div>
+<pre><code>##   ID FirstName Female Age
+## 1  1      John  FALSE  22
+## 3  3      Jane   TRUE  44</code></pre>
+<p>데이터에서 <code>30세 이상</code>인 사람들의 <code>이름(FirstName)</code> 확인 :</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="데이터-프레임data-frames.html#cb166-1" aria-hidden="true" tabindex="-1"></a>dfr1[dfr1<span class="sc">$</span>Age<span class="sc">&gt;</span><span class="dv">30</span>, <span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## [1] &quot;Jim&quot;  &quot;Jane&quot; &quot;Jill&quot;</code></pre>
+<p>데이터에서 <code>모든 여성(Female == TRUE)</code>의 <code>평균 나이(mean(Age))</code> 확인 :</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="데이터-프레임data-frames.html#cb168-1" aria-hidden="true" tabindex="-1"></a>females <span class="ot">&lt;-</span> dfr1<span class="sc">$</span>Female<span class="sc">==</span><span class="cn">TRUE</span></span>
+<span id="cb168-2"><a href="데이터-프레임data-frames.html#cb168-2" aria-hidden="true" tabindex="-1"></a>ages_of_females <span class="ot">&lt;-</span> dfr1[females, <span class="dv">4</span>]</span>
+<span id="cb168-3"><a href="데이터-프레임data-frames.html#cb168-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span> (ages_of_females)</span></code></pre></div>
+<pre><code>## [1] 49.5</code></pre>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="리스트lists.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="흐름-제어와-반복-구문flow-control-and-loops.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +305,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/1-Quick_Reminder_of_R_Basics.Rmd",
 "text": "Edit"
 },
 "history": {

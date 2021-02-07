@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>1.6 행렬과 배열(Matrces &amp; Arrays) | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="1.6 행렬과 배열(Matrces &amp; Arrays) | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="1.6 행렬과 배열(Matrces &amp; Arrays) | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="factors.html"/>
+<link rel="next" href="리스트lists.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,128 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="행렬과-배열matrces-arrays" class="section level2" number="1.6">
+<h2><span class="header-section-number">1.6</span> <em>행렬과 배열(Matrces &amp; Arrays)</em></h2>
+<p><strong>행렬(matrix)</strong>은 <code>행과 열의 차원(dimension)</code>을 갖는 벡터이다:</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="행렬과-배열matrces-arrays.html#cb99-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">20</span>)   <span class="co"># 1을 20번 복사. 변수 m은 모든 요소가 1인 벡터</span></span>
+<span id="cb99-2"><a href="행렬과-배열matrces-arrays.html#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(m) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">4</span>)  <span class="co"># 차원을 5 &amp; 4로 설정 : 즉, m은 이제 5x4 행렬</span></span></code></pre></div>
+<p><strong>행렬의 생성</strong> : <code>matrix():</code> 함수의 사용</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="행렬과-배열matrces-arrays.html#cb100-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data=</span><span class="dv">1</span>, <span class="at">nrow=</span><span class="dv">5</span>, <span class="at">ncol=</span><span class="dv">4</span>)  <span class="co"># 위의 행렬과 동일. </span></span>
+<span id="cb100-2"><a href="행렬과-배열matrces-arrays.html#cb100-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># 1의 요소 값(자동 반복)을 갖는 5x4 행렬</span></span>
+<span id="cb100-3"><a href="행렬과-배열matrces-arrays.html#cb100-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>)                   <span class="co"># 위의 행렬과 같음. (인수의 키워드 생략 가능)</span></span>
+<span id="cb100-4"><a href="행렬과-배열matrces-arrays.html#cb100-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-5"><a href="행렬과-배열matrces-arrays.html#cb100-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 행렬의 차원 확인 : dim() 함수의 사용</span></span>
+<span id="cb100-6"><a href="행렬과-배열matrces-arrays.html#cb100-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(m)</span></code></pre></div>
+<pre><code>## [1] 5 4</code></pre>
+<p><strong>벡터 결합</strong>에 의한 행렬 생성 : <code>cbind()</code> 함수와 <code>rbind()</code> 함수의 사용</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="행렬과-배열matrces-arrays.html#cb102-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">9</span>)  <span class="co"># 3개의 벡터들을 컬럼(column, 열) 단위로 결합. 5x3 행렬</span></span>
+<span id="cb102-2"><a href="행렬과-배열matrces-arrays.html#cb102-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">9</span>)  <span class="co"># 3개의 벡터들을 로(row, 행) 단위로 결합. 3x5 행렬</span></span></code></pre></div>
+<p><strong>행렬 요소의 선택</strong> :</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="행렬과-배열matrces-arrays.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 행렬의 생성</span></span>
+<span id="cb103-2"><a href="행렬과-배열matrces-arrays.html#cb103-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>)</span>
+<span id="cb103-3"><a href="행렬과-배열matrces-arrays.html#cb103-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-4"><a href="행렬과-배열matrces-arrays.html#cb103-4" aria-hidden="true" tabindex="-1"></a><span class="do">## 행렬 요소의 선택 : m[행번호, 열번호]</span></span>
+<span id="cb103-5"><a href="행렬과-배열matrces-arrays.html#cb103-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 단일 요소의 선택</span></span>
+<span id="cb103-6"><a href="행렬과-배열matrces-arrays.html#cb103-6" aria-hidden="true" tabindex="-1"></a>m[<span class="dv">2</span>,<span class="dv">3</span>]      <span class="co"># 행렬 m의 2행, 3열 요소 - 단일 요소(cell)</span></span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="행렬과-배열matrces-arrays.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 행/열의 선택</span></span>
+<span id="cb105-2"><a href="행렬과-배열matrces-arrays.html#cb105-2" aria-hidden="true" tabindex="-1"></a>m[<span class="dv">2</span>,]       <span class="co"># 행렬 m의 2번째 행 전체 : 벡터</span></span></code></pre></div>
+<pre><code>##  [1] 2 2 2 2 2 2 2 2 2 2</code></pre>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="행렬과-배열matrces-arrays.html#cb107-1" aria-hidden="true" tabindex="-1"></a>m[,<span class="dv">2</span>]       <span class="co"># 행렬 m의 2번째 열 전체 : 벡터</span></span></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="행렬과-배열matrces-arrays.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 복수 개 행/열의 선택 : 부분 행렬(submatrix)</span></span>
+<span id="cb109-2"><a href="행렬과-배열matrces-arrays.html#cb109-2" aria-hidden="true" tabindex="-1"></a>m[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>]  <span class="co"># 부분 행렬 : (1, 2)행과 (4, 5, 6) 열로 구성된 행렬</span></span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    1    1
+## [2,]    2    2    2</code></pre>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="행렬과-배열matrces-arrays.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 행/열의 제외 : &#39;-&#39;</span></span>
+<span id="cb111-2"><a href="행렬과-배열matrces-arrays.html#cb111-2" aria-hidden="true" tabindex="-1"></a>m[<span class="sc">-</span><span class="dv">1</span>,]      <span class="co"># 1번째 행을 제외한 부분 행렬</span></span></code></pre></div>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+##  [1,]    2    2    2    2    2    2    2    2    2     2
+##  [2,]    3    3    3    3    3    3    3    3    3     3
+##  [3,]    4    4    4    4    4    4    4    4    4     4
+##  [4,]    5    5    5    5    5    5    5    5    5     5
+##  [5,]    6    6    6    6    6    6    6    6    6     6
+##  [6,]    7    7    7    7    7    7    7    7    7     7
+##  [7,]    8    8    8    8    8    8    8    8    8     8
+##  [8,]    9    9    9    9    9    9    9    9    9     9
+##  [9,]   10   10   10   10   10   10   10   10   10    10</code></pre>
+<p><strong>행렬의 연산</strong> :</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="행렬과-배열matrces-arrays.html#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 행의 요소들이 1 열의 요소들과 같은가? </span></span>
+<span id="cb113-2"><a href="행렬과-배열matrces-arrays.html#cb113-2" aria-hidden="true" tabindex="-1"></a>m[<span class="dv">1</span>,]<span class="sc">==</span>m[,<span class="dv">1</span>] </span></code></pre></div>
+<pre><code>##  [1]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="행렬과-배열matrces-arrays.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 논리 행렬 : m의 요소 값이 3보다 크면 TRUE, 아니면 FALSE :</span></span>
+<span id="cb115-2"><a href="행렬과-배열matrces-arrays.html#cb115-2" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> m <span class="sc">&gt;</span> <span class="dv">3</span> </span>
+<span id="cb115-3"><a href="행렬과-배열matrces-arrays.html#cb115-3" aria-hidden="true" tabindex="-1"></a>l</span></code></pre></div>
+<pre><code>##        [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]  [,9] [,10]
+##  [1,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [2,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [3,] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [4,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [5,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [6,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [7,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [8,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [9,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+## [10,]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="행렬과-배열matrces-arrays.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 논리 벡터 l의 요소가 TRUE인 m의 요소 선택 : 즉, 요소 값이 3보가 큰 요소 선택</span></span>
+<span id="cb117-2"><a href="행렬과-배열matrces-arrays.html#cb117-2" aria-hidden="true" tabindex="-1"></a>m[l]</span></code></pre></div>
+<pre><code>##  [1]  4  5  6  7  8  9 10  4  5  6  7  8  9 10  4  5  6  7  8  9 10  4  5  6  7
+## [26]  8  9 10  4  5  6  7  8  9 10  4  5  6  7  8  9 10  4  5  6  7  8  9 10  4
+## [51]  5  6  7  8  9 10  4  5  6  7  8  9 10  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="행렬과-배열matrces-arrays.html#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 전치 행렬(transpose matrix) : t() 함수의 사용</span></span>
+<span id="cb119-2"><a href="행렬과-배열matrces-arrays.html#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(m)</span></code></pre></div>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+##  [1,]    1    2    3    4    5    6    7    8    9    10
+##  [2,]    1    2    3    4    5    6    7    8    9    10
+##  [3,]    1    2    3    4    5    6    7    8    9    10
+##  [4,]    1    2    3    4    5    6    7    8    9    10
+##  [5,]    1    2    3    4    5    6    7    8    9    10
+##  [6,]    1    2    3    4    5    6    7    8    9    10
+##  [7,]    1    2    3    4    5    6    7    8    9    10
+##  [8,]    1    2    3    4    5    6    7    8    9    10
+##  [9,]    1    2    3    4    5    6    7    8    9    10
+## [10,]    1    2    3    4    5    6    7    8    9    10</code></pre>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="행렬과-배열matrces-arrays.html#cb121-1" aria-hidden="true" tabindex="-1"></a>mt <span class="ot">&lt;-</span> <span class="fu">t</span>(m)     <span class="co"># mt는 m의 전치행렬 : 행과 열의 위치가 바뀐 행렬</span></span>
+<span id="cb121-2"><a href="행렬과-배열matrces-arrays.html#cb121-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-3"><a href="행렬과-배열matrces-arrays.html#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 행렬 곱 연산 : %*% 연산자 사용</span></span>
+<span id="cb121-4"><a href="행렬과-배열matrces-arrays.html#cb121-4" aria-hidden="true" tabindex="-1"></a>m <span class="sc">%*%</span> mt       <span class="co"># %*% 연산자는 행렬 곱</span></span></code></pre></div>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+##  [1,]   10   20   30   40   50   60   70   80   90   100
+##  [2,]   20   40   60   80  100  120  140  160  180   200
+##  [3,]   30   60   90  120  150  180  210  240  270   300
+##  [4,]   40   80  120  160  200  240  280  320  360   400
+##  [5,]   50  100  150  200  250  300  350  400  450   500
+##  [6,]   60  120  180  240  300  360  420  480  540   600
+##  [7,]   70  140  210  280  350  420  490  560  630   700
+##  [8,]   80  160  240  320  400  480  560  640  720   800
+##  [9,]   90  180  270  360  450  540  630  720  810   900
+## [10,]  100  200  300  400  500  600  700  800  900  1000</code></pre>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="행렬과-배열matrces-arrays.html#cb123-1" aria-hidden="true" tabindex="-1"></a>m <span class="sc">*</span> m          <span class="co"># * 는 행렬의 요소별 곱하기</span></span></code></pre></div>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+##  [1,]    1    1    1    1    1    1    1    1    1     1
+##  [2,]    4    4    4    4    4    4    4    4    4     4
+##  [3,]    9    9    9    9    9    9    9    9    9     9
+##  [4,]   16   16   16   16   16   16   16   16   16    16
+##  [5,]   25   25   25   25   25   25   25   25   25    25
+##  [6,]   36   36   36   36   36   36   36   36   36    36
+##  [7,]   49   49   49   49   49   49   49   49   49    49
+##  [8,]   64   64   64   64   64   64   64   64   64    64
+##  [9,]   81   81   81   81   81   81   81   81   81    81
+## [10,]  100  100  100  100  100  100  100  100  100   100</code></pre>
+<p>배열(Arrays)은 2보다 큰 차원을 다룬다.</p>
+<p>배열은 <code>array()</code> 함수로 생성할 수 있다:</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="행렬과-배열matrces-arrays.html#cb125-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="at">data=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>, <span class="at">dim=</span><span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>))    <span class="co"># 세 번째 차원을 갖는 배열 : 3x3x2</span></span>
+<span id="cb125-2"><a href="행렬과-배열matrces-arrays.html#cb125-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="co"># 3x3 행렬이 두 개 있는 것</span></span>
+<span id="cb125-3"><a href="행렬과-배열matrces-arrays.html#cb125-3" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>, <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>))             <span class="co"># 동일한 배열</span></span></code></pre></div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="factors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="리스트lists.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +369,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/1-Quick_Reminder_of_R_Basics.Rmd",
 "text": "Edit"
 },
 "history": {

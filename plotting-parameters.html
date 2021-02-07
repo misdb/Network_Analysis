@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R을 이용한 네트워크 분석과 시각화</title>
+  <title>Plotting parameters | R을 이용한 네트워크 분석과 시각화</title>
   <meta name="description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta property="og:title" content="Plotting parameters | R을 이용한 네트워크 분석과 시각화" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="Network-Analysis" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R을 이용한 네트워크 분석과 시각화" />
+  <meta name="twitter:title" content="Plotting parameters | R을 이용한 네트워크 분석과 시각화" />
   
   <meta name="twitter:description" content="Katherine Ognyanova의 ‘Network Analysis and Visualization with R’ 세미나 자료를 번역한 것입니다. 번역의 오류는 번역자의 잘못입니다. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="R-Basics.html"/>
+<link rel="prev" href="Plotting-Networks-with-Igraph.html"/>
+<link rel="next" href="network-layouts.html"/>
 <script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,24 +217,196 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R을 이용한 네트워크 분석과 시각화</h1>
-<p class="author"><em>Translated by Dae Ho Kim, Mokwon University</em></p>
-<p class="date"><em>2021-02-07</em></p>
-</div>
-<div id="copyright" class="section level1 unnumbered">
-<h1>Copyright</h1>
-<p><img src="images/by-nc-sa.png" alt="Creative Commons License" />
-The online version of this book is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
+<div id="plotting-parameters" class="section level2 unnumbered">
+<h2><em>Plotting parameters</em></h2>
+<table>
+<colgroup>
+<col width="27%" />
+<col width="72%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>NODES</strong></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>vertex.color</strong></td>
+<td>Node color</td>
+</tr>
+<tr class="even">
+<td><strong>vertex.frame.color</strong></td>
+<td>Node border color</td>
+</tr>
+<tr class="odd">
+<td><strong>vertex.shape</strong></td>
+<td>One of “none,” “circle,” “square,” “csquare,” “rectangle” “crectangle,” “vrectangle,” “pie,” “raster,” or “sphere”</td>
+</tr>
+<tr class="even">
+<td><strong>vertex.size</strong></td>
+<td>Size of the node (default is 15)</td>
+</tr>
+<tr class="odd">
+<td><strong>vertex.size2</strong></td>
+<td>The second size of the node (e.g. for a rectangle)</td>
+</tr>
+<tr class="even">
+<td><strong>vertex.label</strong></td>
+<td>Character vector used to label the nodes</td>
+</tr>
+<tr class="odd">
+<td><strong>vertex.label.family</strong></td>
+<td>Font family of the label (e.g.“Times,” “Helvetica”)</td>
+</tr>
+<tr class="even">
+<td><strong>vertex.label.font</strong></td>
+<td>Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol</td>
+</tr>
+<tr class="odd">
+<td><strong>vertex.label.cex</strong></td>
+<td>Font size (multiplication factor, device-dependent)</td>
+</tr>
+<tr class="even">
+<td><strong>vertex.label.dist</strong></td>
+<td>Distance between the label and the vertex</td>
+</tr>
+<tr class="odd">
+<td><strong>vertex.label.degree</strong></td>
+<td>The position of the label in relation to the vertex, where 0 right, “pi” is left, “pi/2” is below, and “-pi/2” is above</td>
+</tr>
+<tr class="even">
+<td><strong>EDGES</strong></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>edge.color</strong></td>
+<td>Edge color</td>
+</tr>
+<tr class="even">
+<td><strong>edge.width</strong></td>
+<td>Edge width, defaults to 1</td>
+</tr>
+<tr class="odd">
+<td><strong>edge.arrow.size</strong></td>
+<td>Arrow size, defaults to 1</td>
+</tr>
+<tr class="even">
+<td><strong>edge.arrow.width</strong></td>
+<td>Arrow width, defaults to 1</td>
+</tr>
+<tr class="odd">
+<td><strong>edge.lty</strong></td>
+<td>Line type, could be 0 or “blank,” 1 or “solid,” 2 or “dashed,” 3 or “dotted,” 4 or “dotdash,” 5 or “longdash,” 6 or “twodash”</td>
+</tr>
+<tr class="even">
+<td><strong>edge.label</strong></td>
+<td>Character vector used to label edges</td>
+</tr>
+<tr class="odd">
+<td><strong>edge.label.family</strong></td>
+<td>Font family of the label (e.g.“Times,” “Helvetica”)</td>
+</tr>
+<tr class="even">
+<td><strong>edge.label.font</strong></td>
+<td>Font: 1 plain, 2 bold, 3, italic, 4 bold italic, 5 symbol</td>
+</tr>
+<tr class="odd">
+<td><strong>edge.label.cex</strong></td>
+<td>Font size for edge labels</td>
+</tr>
+<tr class="even">
+<td><strong>edge.curved</strong></td>
+<td>Edge curvature, range 0-1 (FALSE sets it to 0, TRUE to 0.5)</td>
+</tr>
+<tr class="odd">
+<td><strong>arrow.mode</strong></td>
+<td>Vector specifying whether edges should have arrows, possible values: 0 no arrow, 1 back, 2 forward, 3 both</td>
+</tr>
+<tr class="even">
+<td><strong>OTHER</strong></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>margin</strong></td>
+<td>Empty space margins around the plot, vector with length 4</td>
+</tr>
+<tr class="even">
+<td><strong>frame</strong></td>
+<td>if TRUE, the plot will be framed</td>
+</tr>
+<tr class="odd">
+<td><strong>main</strong></td>
+<td>If set, adds a title to the plot</td>
+</tr>
+<tr class="even">
+<td><strong>sub</strong></td>
+<td>If set, adds a subtitle to the plot</td>
+</tr>
+</tbody>
+</table>
+<p>노드와 에지 옵션을 두 가지 방법으로 설정할 수 있다 - 첫 번째는 <code>plot()</code> 함수 안에서 다음과 같이 옵션을 설정하는 것이다.</p>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="plotting-parameters.html#cb320-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 곡선형 에지와 화살표 크기 조절하기 :</span></span>
+<span id="cb320-2"><a href="plotting-parameters.html#cb320-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net, <span class="at">edge.arrow.size=</span>.<span class="dv">4</span>, <span class="at">edge.curved=</span>.<span class="dv">1</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-83-1.png" width="672" /></p>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="plotting-parameters.html#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 에지 색을 회색으로 그리고 노드 색을 오렌지 색으로 설정하기 :</span></span>
+<span id="cb321-2"><a href="plotting-parameters.html#cb321-2" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;media&quot;에 저장된 노드 이름을 노드의 라벨로 대체</span></span>
+<span id="cb321-3"><a href="plotting-parameters.html#cb321-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net, <span class="at">edge.arrow.size=</span>.<span class="dv">2</span>, <span class="at">edge.curved=</span><span class="dv">0</span>,</span>
+<span id="cb321-4"><a href="plotting-parameters.html#cb321-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.color=</span><span class="st">&quot;orange&quot;</span>, <span class="at">vertex.frame.color=</span><span class="st">&quot;#555555&quot;</span>,</span>
+<span id="cb321-5"><a href="plotting-parameters.html#cb321-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label=</span><span class="fu">V</span>(net)<span class="sc">$</span>media, <span class="at">vertex.label.color=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb321-6"><a href="plotting-parameters.html#cb321-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label.cex=</span>.<span class="dv">7</span>) </span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-84-1.png" width="672" /></p>
+<p>두 번째 방법은 <code>igraph</code> 개체에 옵션을 추가하는 것이다. 네트워크의 노드를 <code>media.type</code> 에 따라 색을 지정하고, <code>audience.size</code>(대규모 <code>audience</code>는 노드를 크게)에 따라 노드의 크기를 설정해 보자. 또한 가중치에 따라 에지의 넓이를 바꿀 수도 있다.</p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="plotting-parameters.html#cb322-1" aria-hidden="true" tabindex="-1"></a><span class="co"># media 종류에 따라 색 지정하기 :</span></span>
+<span id="cb322-2"><a href="plotting-parameters.html#cb322-2" aria-hidden="true" tabindex="-1"></a>colrs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;gray50&quot;</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;gold&quot;</span>)</span>
+<span id="cb322-3"><a href="plotting-parameters.html#cb322-3" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(net)<span class="sc">$</span>color <span class="ot">&lt;-</span> colrs[<span class="fu">V</span>(net)<span class="sc">$</span>media.type]</span>
+<span id="cb322-4"><a href="plotting-parameters.html#cb322-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-5"><a href="plotting-parameters.html#cb322-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 고객의 규모에 따라 노드의 크기 지정하기 :</span></span>
+<span id="cb322-6"><a href="plotting-parameters.html#cb322-6" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(net)<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="fu">V</span>(net)<span class="sc">$</span>audience.size<span class="sc">*</span><span class="fl">0.7</span></span>
+<span id="cb322-7"><a href="plotting-parameters.html#cb322-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-8"><a href="plotting-parameters.html#cb322-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 라벨들은 현 노드의 ID이다.</span></span>
+<span id="cb322-9"><a href="plotting-parameters.html#cb322-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 라벨을 NA로 설정하면 라벨이 표시되지 않는다.</span></span>
+<span id="cb322-10"><a href="plotting-parameters.html#cb322-10" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(net)<span class="sc">$</span>label.color <span class="ot">&lt;-</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb322-11"><a href="plotting-parameters.html#cb322-11" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(net)<span class="sc">$</span>label <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb322-12"><a href="plotting-parameters.html#cb322-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-13"><a href="plotting-parameters.html#cb322-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 가중치에 따라 에지의 넓이를 지정하기 :</span></span>
+<span id="cb322-14"><a href="plotting-parameters.html#cb322-14" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(net)<span class="sc">$</span>width <span class="ot">&lt;-</span> <span class="fu">E</span>(net)<span class="sc">$</span>weight<span class="sc">/</span><span class="dv">6</span></span>
+<span id="cb322-15"><a href="plotting-parameters.html#cb322-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-16"><a href="plotting-parameters.html#cb322-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 화살표 크기와 에지 색을 변경하기 :</span></span>
+<span id="cb322-17"><a href="plotting-parameters.html#cb322-17" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(net)<span class="sc">$</span>arrow.size <span class="ot">&lt;-</span> .<span class="dv">2</span></span>
+<span id="cb322-18"><a href="plotting-parameters.html#cb322-18" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(net)<span class="sc">$</span>edge.color <span class="ot">&lt;-</span> <span class="st">&quot;gray80&quot;</span></span>
+<span id="cb322-19"><a href="plotting-parameters.html#cb322-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-20"><a href="plotting-parameters.html#cb322-20" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(net)<span class="sc">$</span>width <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">+</span><span class="fu">E</span>(net)<span class="sc">$</span>weight<span class="sc">/</span><span class="dv">12</span></span></code></pre></div>
+<p>또한 <code>plot()</code>에 명시적으로 속성을 지정할 수 있다.</p>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="plotting-parameters.html#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net, <span class="at">edge.color=</span><span class="st">&quot;orange&quot;</span>, <span class="at">vertex.color=</span><span class="st">&quot;gray50&quot;</span>) </span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-86-1.png" width="672" /></p>
+<p>우리가 사용한 색의 의미를 설정하는 범례를 추가할 수 있다 :</p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="plotting-parameters.html#cb324-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net) </span>
+<span id="cb324-2"><a href="plotting-parameters.html#cb324-2" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x=</span><span class="sc">-</span><span class="fl">1.5</span>, <span class="at">y=</span><span class="sc">-</span><span class="fl">1.1</span>, <span class="fu">c</span>(<span class="st">&quot;Newspaper&quot;</span>,<span class="st">&quot;Television&quot;</span>, <span class="st">&quot;Online News&quot;</span>), <span class="at">pch=</span><span class="dv">21</span>,</span>
+<span id="cb324-3"><a href="plotting-parameters.html#cb324-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span><span class="st">&quot;#777777&quot;</span>, <span class="at">pt.bg=</span>colrs, <span class="at">pt.cex=</span><span class="dv">2</span>, <span class="at">cex=</span>.<span class="dv">8</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
+<p>때때로 의미 네트워크의 경우 특히, 노드의 라벨만을 표시하고자 할 때가 있다.:</p>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="plotting-parameters.html#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net, <span class="at">vertex.shape=</span><span class="st">&quot;none&quot;</span>, <span class="at">vertex.label=</span><span class="fu">V</span>(net)<span class="sc">$</span>media, </span>
+<span id="cb325-2"><a href="plotting-parameters.html#cb325-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label.font=</span><span class="dv">2</span>, <span class="at">vertex.label.color=</span><span class="st">&quot;gray40&quot;</span>,</span>
+<span id="cb325-3"><a href="plotting-parameters.html#cb325-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label.cex=</span>.<span class="dv">7</span>, <span class="at">edge.color=</span><span class="st">&quot;gray85&quot;</span>)</span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
+<p>원천 노드의 색에 따라 그래프의 에지 색을 지정할 수 있다. <code>igraph</code> 패키지의 <code>end()</code> 함수로 각 에지의 시작 노드를 알 수 있다.</p>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="plotting-parameters.html#cb326-1" aria-hidden="true" tabindex="-1"></a>edge.start <span class="ot">&lt;-</span> <span class="fu">ends</span>(net, <span class="at">es=</span><span class="fu">E</span>(net), <span class="at">names=</span>F)[,<span class="dv">1</span>]</span>
+<span id="cb326-2"><a href="plotting-parameters.html#cb326-2" aria-hidden="true" tabindex="-1"></a>edge.start</span></code></pre></div>
+<pre><code>##  [1]  1  1  1  1  2  2  2  2  3  3  3  3  3  3  3  4  4  4  4  4  5  5  5  5  6
+## [26]  6  7  7  7  7  8  8  8  9 10 12 12 12 13 13 14 14 15 15 15 16 16 17</code></pre>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="plotting-parameters.html#cb328-1" aria-hidden="true" tabindex="-1"></a>edge.col <span class="ot">&lt;-</span> <span class="fu">V</span>(net)<span class="sc">$</span>color[edge.start]</span>
+<span id="cb328-2"><a href="plotting-parameters.html#cb328-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb328-3"><a href="plotting-parameters.html#cb328-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(net, <span class="at">edge.color=</span>edge.col, <span class="at">edge.curved=</span>.<span class="dv">1</span>)  </span></code></pre></div>
+<p><img src="Network-Analysis_files/figure-html/unnamed-chunk-89-1.png" width="672" /></p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="R-Basics.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="Plotting-Networks-with-Igraph.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="network-layouts.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +437,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/5-Plotting_Networks_with_igraph.Rmd",
 "text": "Edit"
 },
 "history": {
