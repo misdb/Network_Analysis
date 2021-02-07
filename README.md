@@ -1,4 +1,4 @@
-# title: "R을 이용한  네트워크 분석과 시각화"
+# "R을 이용한  네트워크 분석과 시각화"
 
 Translated by Dae Ho Kim, Mokwon University
 
